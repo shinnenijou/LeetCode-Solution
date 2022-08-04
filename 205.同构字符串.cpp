@@ -4,7 +4,7 @@
  * [205] 同构字符串
  */
 #include<string>
-#include<unordered_map>
+#include<vector>
 // @lc code=start
 class Solution {
 public:
@@ -16,8 +16,15 @@ public:
         if (s.empty()){
             return true;
         }
+        std::vector<int> s_map(256, 0), t_map(256, 0);
+        for(int i = 0; i != s.size(); i++){
+            if(s_map[s[i]] != t_map[t[i]]){
+                return false;
+            }
 
-
+            s_map[s[i]] = t_map[t[i]] = i + 1;
+        }
+        return true;
     }
 };
 // @lc code=end
