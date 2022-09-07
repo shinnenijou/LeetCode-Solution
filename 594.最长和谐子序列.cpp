@@ -5,7 +5,7 @@
  */
 #include <vector>
 #include <cmath>
-#include <map>
+#include <unordered_map>
 // @lc code=start
 class Solution
 {
@@ -14,20 +14,19 @@ public:
     {
         if (nums.empty())
             return 0;
-        std::map<int, int> num_count;
+        std::unordered_map<int, int> num_count;
         int max = 0;
         for (int i = 0; i != nums.size(); i++)
         {
             num_count[nums[i]]++;
         }
-        std::map<int, int>::iterator iter_2 = num_count.begin(), iter_1 = iter_2++;
-        while (iter_2 != num_count.end())
-        {
-            if (iter_2->first - iter_1->first == 1 && iter_1->second + iter_2->second > max)
-            {
-                max = iter_1->second + iter_2->second;
+        for(auto iter = num_count.begin(); iter != num_count.end(); iter++)
+        {   
+            auto temp_iter = num_count.find(iter->first + 1);
+            if(temp_iter != num_count.end()){
+                int temp = temp_iter->second + iter->second;
+                max = temp > max ? temp : max;
             }
-            iter_1++, iter_2++;
         }
 
         return max;
