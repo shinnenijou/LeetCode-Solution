@@ -11,13 +11,11 @@ using std::vector;
 class Solution {
 public:
     int maximumProduct(vector<int>& nums) {
-        vector<int> &inner_nums = nums;
-        int max_product = 1;
         int n = nums.size();
-        std::sort(inner_nums.begin(), inner_nums.end(), std::greater<int>());
-        int product_1 = inner_nums[0] * inner_nums[1] * inner_nums[2];
-        int product_2 = inner_nums[0] * inner_nums[n - 1] * inner_nums[n - 2];
-        max_product = product_1 > product_2 ? product_1 : product_2;
+        std::sort(nums.begin(), nums.end(), std::greater<int>());
+        int max_product = nums[0] * nums[1] * nums[2];
+        int product_2 = nums[0] * nums[n - 1] * nums[n - 2];
+        if (product_2 > max_product) max_product = product_2;
         return max_product;
     }
 };
