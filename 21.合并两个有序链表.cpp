@@ -18,19 +18,16 @@
 class Solution {
 public:
     ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
-        if(!list1 || !list2) return list1?list1:list2;
-        ListNode *head = list1->val < list2->val ? list1 : list2;
-        ListNode *sub_node = list1->val < list2->val ? list2 : list1;
-        ListNode *cur_node = head;
-        while(sub_node && cur_node){
-            if(!cur_node->next || sub_node->val < cur_node->next->val){
-                ListNode *temp = sub_node;
-                sub_node = cur_node->next;
-                cur_node->next = temp;
-            }
-            cur_node = cur_node->next;
+        if(!list1) return list2;
+        if(!list2) return list1;
+        if(list1->val < list2->val){
+            list1->next = mergeTwoLists(list1->next, list2);
+            return list1;
         }
-        return head;
+        else{
+            list2->next = mergeTwoLists(list2->next, list1);
+            return list2;
+        }
     }
 };
 // @lc code=end
