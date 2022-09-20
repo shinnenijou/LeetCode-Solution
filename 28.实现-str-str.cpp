@@ -35,21 +35,23 @@ public:
     {
         vector<int> lps = _build_LPS(needle);
         int haystack_i = 0, needle_i = 0;
-        while (haystack.size() - haystack_i >= needle.size() - needle_i)
+        for (; haystack_i != haystack.size(); haystack_i++)
         {
-            while (needle_i != needle.size() && haystack[haystack_i] == needle[needle_i])
+            while (needle_i && haystack[haystack_i] != needle[needle_i])
             {
-                haystack_i++, needle_i++;
-            }
-
-            if(needle_i == needle.size()){
-                return haystack_i - needle_i;
-            }
-            else if(needle_i){
                 needle_i = lps[needle_i - 1];
             }
-            else{
-                haystack_i++;
+
+            if (haystack[haystack_i] == needle[needle_i])
+            {
+                if (needle_i == needle.size() - 1)
+                {
+                    return haystack_i - needle_i;
+                }
+                else
+                {
+                    needle_i++;
+                }
             }
         }
 
