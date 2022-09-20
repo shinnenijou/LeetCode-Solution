@@ -12,17 +12,13 @@ class Solution {
 public:
     int lengthOfLongestSubstring(string &s) {
         if(s.empty()) return 0;
-        unordered_map<char, int> lastest_index_map;
+        vector<int16_t> lastest_index_map(256, -1);
         vector<int> length_of_LSS(s.size(), 1);
         int max = 1;
         lastest_index_map[s.front()] = 0;
         for(int i = 1; i < s.size(); i++){
-            unordered_map<char, int>::iterator iter = lastest_index_map.find(s[i]);
-            int lastest_index = 0;
             int head_of_LSS = i - length_of_LSS[i - 1];
-            if(iter != lastest_index_map.end()){
-                lastest_index = iter->second + 1;
-            }
+            int lastest_index = lastest_index_map[s[i]] + 1;
             head_of_LSS = lastest_index > head_of_LSS ? lastest_index : head_of_LSS;
             length_of_LSS[i] = i - head_of_LSS + 1;
             lastest_index_map[s[i]] = i;
