@@ -1,5 +1,4 @@
 #include "catch_amalgamated.hpp"
-#include "catch_amalgamated.cpp"
 
 #include "sort.h"
 

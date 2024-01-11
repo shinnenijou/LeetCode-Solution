@@ -11,6 +11,7 @@ include_directories(includes)
 # Source
 add_executable(unit_test
         test/main.cpp
+        test/catch_amalgamated.cpp
         src/in-place_merge_sort.cpp
         src/plain_merge_sort.cpp
 )
