@@ -10,10 +10,10 @@
 #include <sort.h>
 
 namespace InPlaceMergeSort {
-    void Solution::_mergeArray(vector<int> &nums, int left, int quarter, int mid, int right) {
-        int i = left;   // point to left sorted part
-        int j = mid;    // point to right sorted part
-        int k = quarter; // point to unsorted part
+    void Solution::_mergeArray(vector<int> &nums, size_t left, size_t quarter, size_t mid, size_t right) {
+        size_t i = left;   // point to left sorted part
+        size_t j = mid;    // point to right sorted part
+        size_t k = quarter; // point to unsorted part
         while (i < quarter && j < right) {
             if (nums[i] <= nums[j]) {
                 int temp = nums[k];
@@ -37,17 +37,17 @@ namespace InPlaceMergeSort {
     }
 
     // left ~ mid: unsorted, mid ~ right: sorted
-    void Solution::_sortArray(vector<int> &nums, int left, int right) {
+    void Solution::_sortArray(vector<int> &nums, size_t left, size_t right) {
         if (right - left <= 1) {
             return;
         }
 
-        int mid = left + ((right - left) >> 1);
+        size_t mid = left + ((right - left) >> 1);
         _sortArray(nums, mid, right);
 
         // Note: left~quarter: sorted, quarter~mid: unsorted, mid~right: sorted
         // 注意mid - quarter必须大于quarter - left以完全容纳左半的sorted部分
-        int quarter = left + ((mid - left) >> 1);
+        size_t quarter = left + ((mid - left) >> 1);
         _sortArray(nums, left, quarter);
 
         // 合并已排序的两个部分

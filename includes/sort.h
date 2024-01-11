@@ -11,8 +11,8 @@ using std::vector;
 namespace InPlaceMergeSort{
     class Solution{
     private:
-        static void _mergeArray(vector<int> &nums, int left, int quarter, int mid, int right);
-        static void _sortArray(vector<int> &nums, int left, int right);
+        static void _mergeArray(vector<int> &nums, size_t left, size_t quarter, size_t mid, size_t right);
+        static void _sortArray(vector<int> &nums, size_t left, size_t right);
     public:
         static vector<int> sortArray(vector<int> &nums);
     };
@@ -21,8 +21,8 @@ namespace InPlaceMergeSort{
 namespace PlainMergeSort{
     class Solution{
     private:
-        static void _mergeArray(vector<int> &nums, vector<int> &buffer, int left, int mid, int right);
-        static void _sortArray(vector<int> &nums, vector<int> &buffer, int left, int right);
+        static void _mergeArray(vector<int> &nums, vector<int> &buffer, size_t left, size_t mid, size_t right);
+        static void _sortArray(vector<int> &nums, vector<int> &buffer, size_t left, size_t right);
     public:
         static vector<int> sortArray(std::vector<int> &nums);
     };
