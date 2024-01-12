@@ -6,27 +6,29 @@
 #define LEETCODE_SOLUTION_SORT_H
 
 #include <vector>
-using std::vector;
+#include <utility>
 
-namespace InPlaceMergeSort{
-    class Solution{
-    private:
-        static void _mergeArray(vector<int> &nums, size_t left, size_t quarter, size_t mid, size_t right);
-        static void _sortArray(vector<int> &nums, size_t left, size_t right);
-    public:
-        static vector<int> sortArray(vector<int> &nums);
-    };
-}
+std::vector<std::pair<std::vector<int>,std::vector<int>>> sortTestCase(const std::vector<std::vector<int>>& cases);
 
-namespace PlainMergeSort{
-    class Solution{
-    private:
-        static void _mergeArray(vector<int> &nums, vector<int> &buffer, size_t left, size_t mid, size_t right);
-        static void _sortArray(vector<int> &nums, vector<int> &buffer, size_t left, size_t right);
-    public:
-        static vector<int> sortArray(std::vector<int> &nums);
-    };
-}
+class InPlaceMergeSort {
+private:
+    static void _mergeArray(std::vector<int> &nums, size_t left, size_t quarter, size_t mid, size_t right);
+
+    static void _sortArray(std::vector<int> &nums, size_t left, size_t right);
+
+public:
+    static std::vector<int> sortArray(std::vector<int> &nums);
+};
+
+class PlainMergeSort {
+private:
+    static void _mergeArray(std::vector<int> &nums, std::vector<int> &buffer, size_t left, size_t mid, size_t right);
+
+    static void _sortArray(std::vector<int> &nums, std::vector<int> &buffer, size_t left, size_t right);
+
+public:
+    static std::vector<int> sortArray(std::vector<int> &nums);
+};
 
 
 #endif //LEETCODE_SOLUTION_SORT_H

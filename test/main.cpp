@@ -2,32 +2,25 @@
 
 #include "sort.h"
 
+std::vector<std::vector<int>> SORT_TEST_CASE({
+                                                     {5, 2, 3, 1},
+                                                     {5, 1, 1, 2, 0, 0},
+                                             });
+
 TEST_CASE("PlainMergeSort") {
-    using solution = PlainMergeSort::Solution;
+    using solution = PlainMergeSort;
 
-    vector<int> input;
-    vector<int> expect;
-
-    input = {5, 2, 3, 1};
-    expect = {1, 2, 3, 5};
-    REQUIRE(solution::sortArray(input) == expect);
-
-    input = {5, 1, 1, 2, 0, 0};
-    expect = {0, 0, 1, 1, 2, 5};
-    REQUIRE(solution::sortArray(input) == expect);
+    auto test_cases = sortTestCase(SORT_TEST_CASE);
+    for (auto test_case: test_cases) {
+        REQUIRE(solution::sortArray(test_case.first) == test_case.second);
+    }
 }
 
 TEST_CASE("InplaceMergeSort") {
-    using solution = InPlaceMergeSort::Solution;
+    using solution = InPlaceMergeSort;
 
-    vector<int> input;
-    vector<int> expect;
-
-    input = {5, 2, 3, 1};
-    expect = {1, 2, 3, 5};
-    REQUIRE(solution::sortArray(input) == expect);
-
-    input = {5, 1, 1, 2, 0, 0};
-    expect = {0, 0, 1, 1, 2, 5};
-    REQUIRE(solution::sortArray(input) == expect);
+    auto test_cases = sortTestCase(SORT_TEST_CASE);
+    for (auto test_case: test_cases) {
+        REQUIRE(solution::sortArray(test_case.first) == test_case.second);
+    }
 }
