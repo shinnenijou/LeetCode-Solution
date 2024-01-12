@@ -8,7 +8,7 @@
 #include <vector>
 #include <utility>
 
-std::vector<std::pair<std::vector<int>,std::vector<int>>> sortTestCase(const std::vector<std::vector<int>>& cases);
+std::vector<std::pair<std::vector<int>,std::vector<int>>> sortTestCase();
 
 class InPlaceMergeSort {
 private:

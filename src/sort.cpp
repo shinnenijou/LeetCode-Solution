@@ -1,9 +1,70 @@
 #include <algorithm>
+#include <random>
+#include <functional>
 
 #include "sort.h"
 
-std::vector<std::pair<std::vector<int>,std::vector<int>>> sortTestCase(const std::vector<std::vector<int>>& cases){
+std::vector<std::pair<std::vector<int>,std::vector<int>>> sortTestCase(){
+    const int MAX_LENGTH = 100;
+    const int MAX_VALUE = 10;
+
     std::vector<std::pair<std::vector<int>,std::vector<int>>> ret;
+    std::vector<std::vector<int>> cases;
+
+    // random sequences
+    std::random_device rd;  // a seed source for the random number engine
+    std::mt19937 gen(rd()); // mersenne_twister_engine seeded with rd()
+    std::uniform_int_distribution<> distrib(0, MAX_VALUE);
+
+    for (int i = 0; i < MAX_LENGTH; ++i){
+        std::vector<int> temp;
+
+        temp.reserve(i);
+
+        for (int j = 0; j < i; ++j){
+            temp.push_back(distrib(gen));
+        }
+
+        cases.push_back(temp);
+    }
+
+    // A list with all zeros
+    for (int i = 0; i < MAX_LENGTH; ++i){
+        std::vector<int> temp;
+        temp.reserve(i);
+
+        for (int j = 0; j < i; ++j){
+            temp.push_back(0);
+        }
+
+        cases.push_back(temp);
+    }
+
+    // An ordered list
+    for (int i = 0; i < MAX_LENGTH; ++i){
+        std::vector<int> temp;
+        temp.reserve(i);
+
+        for (int j = 0; j < i; ++j){
+            temp.push_back(distrib(gen));
+        }
+
+        std::sort(temp.begin(), temp.end());
+        cases.push_back(temp);
+    }
+
+    // A reversed list
+    for (int i = 0; i < MAX_LENGTH; ++i){
+        std::vector<int> temp;
+        temp.reserve(i);
+
+        for (int j = 0; j < i; ++j){
+            temp.push_back(distrib(gen));
+        }
+
+        std::sort(temp.begin(), temp.end(), std::greater<>());
+        cases.push_back(temp);
+    }
 
     for (std::vector<int> vec: cases ) {
         std::vector<int> temp(vec.begin(), vec.end());
