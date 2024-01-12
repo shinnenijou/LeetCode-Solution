@@ -55,55 +55,58 @@ std::vector<int> PlainMergeSort::sortArray(std::vector<int> &nums) {
     return nums;
 }
 
-void InPlaceMergeSort::_mergeArray(std::vector<int> &nums, size_t left, size_t quarter, size_t mid, size_t right) {
-    size_t i = left;   // point to left sorted part
-    size_t j = mid;    // point to right sorted part
-    size_t k = quarter; // point to unsorted part
-    while (i < quarter && j < right) {
+void InPlaceMergeSort::_mergeArray(std::vector<int> &nums, size_t leftBegin, size_t leftEnd, size_t rightBegin, size_t rightEnd) {
+    size_t i = leftBegin;   // point to left sorted part
+    size_t j = rightBegin;    // point to right sorted part
+    size_t k = rightEnd - (rightEnd - rightBegin + leftEnd - leftBegin); // point to unsorted part(buffer)
+    while (i < leftEnd && j < rightEnd) {
         if (nums[i] <= nums[j]) {
-            int temp = nums[k];
-            nums[k] = nums[i];
-            nums[i] = temp;
+            std::swap(nums[k], nums[i]);
             i++, k++;
         } else {
-            int temp = nums[k];
-            nums[k] = nums[j];
-            nums[j] = temp;
+            std::swap(nums[k], nums[j]);
             j++, k++;
         }
     }
 
-    while (i < quarter) {
-        int temp = nums[k];
-        nums[k] = nums[i];
-        nums[i] = temp;
+    while (i < leftEnd) {
+        std::swap(nums[k], nums[i]);
         i++, k++;
     }
 }
 
 // left ~ mid: unsorted, mid ~ right: sorted
-void InPlaceMergeSort::_sortArray(std::vector<int> &nums, size_t left, size_t right) {
-    if (right - left <= 1) {
+void InPlaceMergeSort::_sortArray(std::vector<int> &nums, size_t unsortedBegin, size_t sortedBegin, size_t sortedEnd) {
+    size_t unsortedEnd = sortedBegin;
+
+    // base case使用冒泡
+    if (unsortedEnd - unsortedBegin <= 1){
+        size_t  i = unsortedBegin;
+
+        while (i + 1 < sortedEnd && nums[i] > nums[i + 1]){
+            std::swap(nums[i], nums[i + 1]);
+            i++;
+        }
+
         return;
     }
 
-    size_t mid = left + ((right - left) >> 1);
-    _sortArray(nums, mid, right);
 
-    // Note: left~quarter: sorted, quarter~mid: unsorted, mid~right: sorted
-    // 注意mid - quarter必须大于quarter - left以完全容纳左半的sorted部分
-    size_t quarter = left + ((mid - left) >> 1);
-    _sortArray(nums, left, quarter);
+    // unsortedMid ~ unsortedEnd的部分留作交换的buffer, 必须保证buffer空间比排序的部分大
+    // 即: unsortedEnd - unsortedMid >= unsortedMid - unsortedBegin
+    // 整型的平均值正好可以满足此要求
+    size_t unsortedMid = unsortedBegin + ((unsortedEnd - unsortedBegin) >> 1);
+    _sortArray(nums, unsortedBegin, unsortedMid, unsortedMid);
 
     // 合并已排序的两个部分
-    _mergeArray(nums, left, quarter, mid, right);
+    _mergeArray(nums, unsortedBegin, unsortedMid, sortedBegin, sortedEnd);
 
-    // 合并后原本quarter ~ mid未排序的部分会移动到前端, 再对这部分进行排序
-    _sortArray(nums, left, left + mid - quarter);
+    // 合并后原本unsortedMid ~ sortedEnd未排序的部分会移动到前端, 再对这部分进行排序
+    _sortArray(nums, unsortedBegin, unsortedBegin + unsortedEnd - unsortedMid, sortedEnd);
 }
 
 std::vector<int> InPlaceMergeSort::sortArray(std::vector<int> &nums) {
-    _sortArray(nums, 0, nums.size());
+    _sortArray(nums, 0, nums.size(), nums.size());
     return nums;
 }
 

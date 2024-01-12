@@ -12,9 +12,9 @@ std::vector<std::pair<std::vector<int>,std::vector<int>>> sortTestCase(const std
 
 class InPlaceMergeSort {
 private:
-    static void _mergeArray(std::vector<int> &nums, size_t left, size_t quarter, size_t mid, size_t right);
+    static void _mergeArray(std::vector<int> &nums, size_t leftBegin, size_t leftEnd, size_t rightBegin, size_t rightEnd);
 
-    static void _sortArray(std::vector<int> &nums, size_t left, size_t right);
+    static void _sortArray(std::vector<int> &nums, size_t unsortedBegin, size_t sortedBegin, size_t sortedEnd);
 
 public:
     static std::vector<int> sortArray(std::vector<int> &nums);
