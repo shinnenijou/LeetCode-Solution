@@ -15,7 +15,8 @@ public:
 
 class LongestSubstringWithoutRepeatingCharacters{
 public:
-    static int lengthOfLongestSubstring(const std::string& s);
+    static int lengthOfLongestSubstringLinear(const std::string& s);
+    static int lengthOfLongestSubstringMap(const std::string& s);
 };
 
 

@@ -26,7 +26,7 @@ std::vector<int> TwoSum::twoSum(std::vector<int> &nums, int target) {
     return {};
 }
 
-int LongestSubstringWithoutRepeatingCharacters::lengthOfLongestSubstring(const std::string &s) {
+int LongestSubstringWithoutRepeatingCharacters::lengthOfLongestSubstringLinear(const std::string &s) {
     int length = 0;
     int max = 0;
 
@@ -35,6 +35,26 @@ int LongestSubstringWithoutRepeatingCharacters::lengthOfLongestSubstring(const s
         for (; repeatIndex < i && s[repeatIndex] != s[i]; ++repeatIndex);
         length = i == repeatIndex ? length + 1 : i - repeatIndex;
         max = length > max ? length : max;
+    }
+
+    return max;
+}
+
+int LongestSubstringWithoutRepeatingCharacters::lengthOfLongestSubstringMap(const std::string &s) {
+    const int NIL = -1;
+    int map[256];
+
+    for (int &i: map) {
+        i = NIL;
+    }
+
+    int length = 0;
+    int max = 0;
+
+    for (int i = 0; i < s.size(); ++i) {
+        length = map[s[i]] >= i - length && map[s[i]] < i ? i - map[s[i]] : length + 1;
+        max = length > max ? length : max;
+        map[s[i]] = i;
     }
 
     return max;

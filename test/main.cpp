@@ -52,17 +52,21 @@ TEST_CASE("LongestSubstringWithoutRepeatingCharacters"){
 
     input = "";
     expect = 0;
-    REQUIRE(solution::lengthOfLongestSubstring(input) == expect);
+    REQUIRE(solution::lengthOfLongestSubstringLinear(input) == expect);
+    REQUIRE(solution::lengthOfLongestSubstringMap(input) == expect);
 
     input = "abcabcbb";
     expect = 3;
-    REQUIRE(solution::lengthOfLongestSubstring(input) == expect);
+    REQUIRE(solution::lengthOfLongestSubstringLinear(input) == expect);
+    REQUIRE(solution::lengthOfLongestSubstringMap(input) == expect);
 
     input = "bbbbb";
     expect = 1;
-    REQUIRE(solution::lengthOfLongestSubstring(input) == expect);
+    REQUIRE(solution::lengthOfLongestSubstringLinear(input) == expect);
+    REQUIRE(solution::lengthOfLongestSubstringMap(input) == expect);
 
     input = "pwwkew";
     expect = 3;
-    REQUIRE(solution::lengthOfLongestSubstring(input) == expect);
+    REQUIRE(solution::lengthOfLongestSubstringLinear(input) == expect);
+    REQUIRE(solution::lengthOfLongestSubstringMap(input) == expect);
 }
