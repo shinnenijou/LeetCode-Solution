@@ -136,7 +136,6 @@ void InPlaceMergeSort::_mergeArray(std::vector<int> &nums, size_t leftBegin, siz
     }
 }
 
-// left ~ mid: unsorted, mid ~ right: sorted
 void InPlaceMergeSort::_sortArray(std::vector<int> &nums, size_t unsortedBegin, size_t sortedBegin, size_t sortedEnd) {
     size_t unsortedEnd = sortedBegin;
 

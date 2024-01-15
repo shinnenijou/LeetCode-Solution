@@ -10,6 +10,9 @@
 
 std::vector<std::pair<std::vector<int>,std::vector<int>>> sortTestCase();
 
+/*
+ * 原地归并, 不使用额外辅助空间而是使用内部空间作为缓存, 比朴素归并排序的时间复杂度有常数项差异
+ */
 class InPlaceMergeSort {
 private:
     static void _mergeArray(std::vector<int> &nums, size_t leftBegin, size_t leftEnd, size_t rightBegin, size_t rightEnd);
@@ -20,6 +23,9 @@ public:
     static std::vector<int> sortArray(std::vector<int> &nums);
 };
 
+/*
+ * 朴素的归并排序,需要使用额外的辅助空间
+ */
 class PlainMergeSort {
 private:
     static void _mergeArray(std::vector<int> &nums, std::vector<int> &buffer, size_t left, size_t mid, size_t right);
