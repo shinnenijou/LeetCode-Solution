@@ -1,6 +1,7 @@
 #include "catch_amalgamated.hpp"
 
 #include "sort.h"
+#include "list.h"
 #include "problems.h"
 
 TEST_CASE("PlainMergeSort") {
@@ -21,19 +22,19 @@ TEST_CASE("InplaceMergeSort") {
     }
 }
 
-TEST_CASE("TwoSum"){
+TEST_CASE("TwoSum") {
     using solution = TwoSum;
 
     std::vector<int> nums;
     int target = 0;
     std::vector<int> expect;
 
-    nums = {2,7,11,15};
+    nums = {2, 7, 11, 15};
     target = 9;
     expect = {0, 1};
     REQUIRE(solution::twoSum(nums, target) == expect);
 
-    nums = {3,2,4};
+    nums = {3, 2, 4};
     target = 6;
     expect = {1, 2};
     REQUIRE(solution::twoSum(nums, target) == expect);
@@ -44,7 +45,7 @@ TEST_CASE("TwoSum"){
     REQUIRE(solution::twoSum(nums, target) == expect);
 }
 
-TEST_CASE("LongestSubstringWithoutRepeatingCharacters"){
+TEST_CASE("LongestSubstringWithoutRepeatingCharacters") {
     using solution = LongestSubstringWithoutRepeatingCharacters;
 
     std::string input;
@@ -69,4 +70,41 @@ TEST_CASE("LongestSubstringWithoutRepeatingCharacters"){
     expect = 3;
     REQUIRE(solution::lengthOfLongestSubstringLinear(input) == expect);
     REQUIRE(solution::lengthOfLongestSubstringMap(input) == expect);
+}
+
+TEST_CASE("AddTwoNumbers") {
+    using solution = AddTwoNumbers;
+
+    std::vector<int> input;
+    std::vector<int> expect;
+    ListNode *L1 = nullptr;
+    ListNode *L2 = nullptr;
+    ListNode *output = nullptr;
+
+    L1 = createList(input = {2, 4, 3});
+    L2 = createList(input = {5, 6, 4});
+    expect = {7, 0, 8};
+    output = solution::addTwoNumbers(L1, L2);
+    REQUIRE(createVector(output) == expect);
+    deleteList(L1);
+    deleteList(L2);
+    deleteList(output);
+
+    L1 = createList(input = {0});
+    L2 = createList(input = {0});
+    expect = {0};
+    output = solution::addTwoNumbers(L1, L2);
+    REQUIRE(createVector(output) == expect);
+    deleteList(L1);
+    deleteList(L2);
+    deleteList(output);
+
+    L1 = createList(input = {9, 9, 9, 9, 9, 9, 9});
+    L2 = createList(input = {9, 9, 9, 9});
+    expect = {8, 9, 9, 9, 0, 0, 0, 1};
+    output = solution::addTwoNumbers(L1, L2);
+    REQUIRE(createVector(output) == expect);
+    deleteList(L1);
+    deleteList(L2);
+    deleteList(output);
 }
