@@ -21,10 +21,17 @@ ListNode *createList(const std::vector<int>& values);
 void deleteList(ListNode *head);
 std::vector<int> createVector(ListNode *head);
 
-
 class AddTwoNumbers{
 public:
     static ListNode* addTwoNumbers(ListNode* l1, ListNode* l2);
 };
 
+class ReverseLinkedList{
+private:
+    ListNode *newHead = nullptr;
+    ListNode* _reverseListRecursive(ListNode* head);
+public:
+    ListNode* reverseListRecursive(ListNode* head);
+    ListNode* reverseListIterative(ListNode* head);
+};
 #endif //LEETCODE_SOLUTION_LIST_H

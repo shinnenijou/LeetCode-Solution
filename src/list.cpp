@@ -71,3 +71,36 @@ ListNode *AddTwoNumbers::addTwoNumbers(ListNode *l1, ListNode *l2) {
     delete head;
     return ret;
 }
+
+ListNode *ReverseLinkedList::_reverseListRecursive(ListNode *head) {
+    if (!head->next){
+        newHead = head;
+    }
+    else{
+        ListNode *prev = _reverseListRecursive(head->next);
+        prev->next = head;
+    }
+
+    head->next = nullptr;
+    return head;
+}
+
+ListNode *ReverseLinkedList::reverseListRecursive(ListNode *head) {
+    if (!head) return nullptr;
+    _reverseListRecursive(head);
+    return newHead;
+}
+
+ListNode *ReverseLinkedList::reverseListIterative(ListNode *head) {
+    ListNode* prev = nullptr;
+    ListNode* curr = head;
+
+    while (curr){
+        ListNode* temp = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = temp;
+    }
+
+    return prev;
+}

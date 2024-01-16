@@ -108,3 +108,48 @@ TEST_CASE("AddTwoNumbers") {
     deleteList(L2);
     deleteList(output);
 }
+
+TEST_CASE("ReverseLinkedList") {
+    auto solution = ReverseLinkedList();
+
+    std::vector<int> input;
+    std::vector<int> expect;
+    ListNode *head = nullptr;
+    ListNode *output = nullptr;
+
+    head = createList(input = {});
+    expect = {};
+    output = solution.reverseListRecursive(head);
+    REQUIRE(createVector(output) == expect);
+    deleteList(output);
+
+    head = createList(input = {1, 2, 3, 4, 5});
+    expect = {5, 4, 3, 2, 1};
+    output = solution.reverseListRecursive(head);
+    REQUIRE(createVector(output) == expect);
+    deleteList(output);
+
+    head = createList(input = {1, 2});
+    expect = {2, 1};
+    output = solution.reverseListRecursive(head);
+    REQUIRE(createVector(output) == expect);
+    deleteList(output);
+
+    head = createList(input = {});
+    expect = {};
+    output = solution.reverseListIterative(head);
+    REQUIRE(createVector(output) == expect);
+    deleteList(output);
+
+    head = createList(input = {1, 2, 3, 4, 5});
+    expect = {5, 4, 3, 2, 1};
+    output = solution.reverseListIterative(head);
+    REQUIRE(createVector(output) == expect);
+    deleteList(output);
+
+    head = createList(input = {1, 2});
+    expect = {2, 1};
+    output = solution.reverseListIterative(head);
+    REQUIRE(createVector(output) == expect);
+    deleteList(output);
+}
