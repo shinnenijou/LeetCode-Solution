@@ -25,5 +25,10 @@ public:
     static int lengthOfLongestSubstringMap(const std::string& s);
 };
 
+class ValidParentheses{
+public:
+    static bool isValid(const std::string& s);
+};
+
 
 #endif //LEETCODE_SOLUTION_PROBLEMS_H

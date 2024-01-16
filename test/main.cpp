@@ -153,3 +153,26 @@ TEST_CASE("ReverseLinkedList") {
     REQUIRE(createVector(output) == expect);
     deleteList(output);
 }
+
+TEST_CASE("ValidParentheses"){
+    using solution = ValidParentheses;
+
+    std::string input;
+    bool expect = false;
+
+    input = "()";
+    expect = true;
+    REQUIRE(solution::isValid(input) == expect);
+
+    input = "()[]{}";
+    expect = true;
+    REQUIRE(solution::isValid(input) == expect);
+
+    input = "(]";
+    expect = false;
+    REQUIRE(solution::isValid(input) == expect);
+
+    input = "]";
+    expect = false;
+    REQUIRE(solution::isValid(input) == expect);
+}
