@@ -96,8 +96,8 @@ int RemoveDuplicatesFromSortedArray::removeDuplicates(std::vector<int> &nums) {
     int j = 1;  // point to current processing element
 
     for (; j < nums.size(); ++j) {
-        if (nums[j] != nums[i])
-            nums[++i] = nums[j];
+        i += (nums[j] != nums[i]);
+        nums[i] = nums[j];
     }
 
     return i + 1;
