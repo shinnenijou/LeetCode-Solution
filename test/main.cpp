@@ -26,7 +26,7 @@ TEST_CASE("TwoSum") {
     using solution = TwoSum;
 
     std::vector<int> nums;
-    int target = 0;
+    int target;
     std::vector<int> expect;
 
     nums = {2, 7, 11, 15};
@@ -49,7 +49,7 @@ TEST_CASE("LongestSubstringWithoutRepeatingCharacters") {
     using solution = LongestSubstringWithoutRepeatingCharacters;
 
     std::string input;
-    int expect = 0;
+    int expect;
 
     input = "";
     expect = 0;
@@ -77,12 +77,12 @@ TEST_CASE("AddTwoNumbers") {
 
     std::vector<int> input;
     std::vector<int> expect;
-    ListNode *L1 = nullptr;
-    ListNode *L2 = nullptr;
-    ListNode *output = nullptr;
+    ListNode *L1;
+    ListNode *L2;
+    ListNode *output;
 
-    L1 = createList(input = {2, 4, 3});
-    L2 = createList(input = {5, 6, 4});
+    L1 = createList({2, 4, 3});
+    L2 = createList({5, 6, 4});
     expect = {7, 0, 8};
     output = solution::addTwoNumbers(L1, L2);
     REQUIRE(createVector(output) == expect);
@@ -90,8 +90,8 @@ TEST_CASE("AddTwoNumbers") {
     deleteList(L2);
     deleteList(output);
 
-    L1 = createList(input = {0});
-    L2 = createList(input = {0});
+    L1 = createList({0});
+    L2 = createList({0});
     expect = {0};
     output = solution::addTwoNumbers(L1, L2);
     REQUIRE(createVector(output) == expect);
@@ -99,8 +99,8 @@ TEST_CASE("AddTwoNumbers") {
     deleteList(L2);
     deleteList(output);
 
-    L1 = createList(input = {9, 9, 9, 9, 9, 9, 9});
-    L2 = createList(input = {9, 9, 9, 9});
+    L1 = createList({9, 9, 9, 9, 9, 9, 9});
+    L2 = createList({9, 9, 9, 9});
     expect = {8, 9, 9, 9, 0, 0, 0, 1};
     output = solution::addTwoNumbers(L1, L2);
     REQUIRE(createVector(output) == expect);
@@ -112,42 +112,41 @@ TEST_CASE("AddTwoNumbers") {
 TEST_CASE("ReverseLinkedList") {
     auto solution = ReverseLinkedList();
 
-    std::vector<int> input;
     std::vector<int> expect;
-    ListNode *head = nullptr;
-    ListNode *output = nullptr;
+    ListNode *head;
+    ListNode *output;
 
-    head = createList(input = {});
+    head = createList({});
     expect = {};
     output = solution.reverseListRecursive(head);
     REQUIRE(createVector(output) == expect);
     deleteList(output);
 
-    head = createList(input = {1, 2, 3, 4, 5});
+    head = createList({1, 2, 3, 4, 5});
     expect = {5, 4, 3, 2, 1};
     output = solution.reverseListRecursive(head);
     REQUIRE(createVector(output) == expect);
     deleteList(output);
 
-    head = createList(input = {1, 2});
+    head = createList({1, 2});
     expect = {2, 1};
     output = solution.reverseListRecursive(head);
     REQUIRE(createVector(output) == expect);
     deleteList(output);
 
-    head = createList(input = {});
+    head = createList({});
     expect = {};
     output = solution.reverseListIterative(head);
     REQUIRE(createVector(output) == expect);
     deleteList(output);
 
-    head = createList(input = {1, 2, 3, 4, 5});
+    head = createList({1, 2, 3, 4, 5});
     expect = {5, 4, 3, 2, 1};
     output = solution.reverseListIterative(head);
     REQUIRE(createVector(output) == expect);
     deleteList(output);
 
-    head = createList(input = {1, 2});
+    head = createList({1, 2});
     expect = {2, 1};
     output = solution.reverseListIterative(head);
     REQUIRE(createVector(output) == expect);
@@ -157,24 +156,10 @@ TEST_CASE("ReverseLinkedList") {
 TEST_CASE("ValidParentheses"){
     using solution = ValidParentheses;
 
-    std::string input;
-    bool expect = false;
-
-    input = "()";
-    expect = true;
-    REQUIRE(solution::isValid(input) == expect);
-
-    input = "()[]{}";
-    expect = true;
-    REQUIRE(solution::isValid(input) == expect);
-
-    input = "(]";
-    expect = false;
-    REQUIRE(solution::isValid(input) == expect);
-
-    input = "]";
-    expect = false;
-    REQUIRE(solution::isValid(input) == expect);
+    REQUIRE(solution::isValid("()") == true);
+    REQUIRE(solution::isValid("()[]{}") == true);
+    REQUIRE(solution::isValid("(]") == false);
+    REQUIRE(solution::isValid("]") == false);
 }
 
 TEST_CASE("RemoveDuplicatesFromSortedArray"){
