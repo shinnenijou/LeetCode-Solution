@@ -8,12 +8,12 @@
 #include <vector>
 #include <string>
 
-class TwoSum{
+class TwoSum {
 public:
-    static std::vector<int> twoSum(std::vector<int>& nums, int target);
+    static std::vector<int> twoSum(std::vector<int> &nums, int target);
 };
 
-class LongestSubstringWithoutRepeatingCharacters{
+class LongestSubstringWithoutRepeatingCharacters {
 public:
     /*
      * 动态规划, 记录以每个字符为结尾的最长无重复字串并更新。两个方法的区别在加入新字符串后如何搜索当前最长子串里是否有重复字符
@@ -21,13 +21,19 @@ public:
      * Map使用数组记录每个字符上次出现的索引并和当前字符索引比较, 时间复杂度为O(n)并仅需要常数空间
      * 字符集较大时可以采用其他Map结构实现来减小空间消耗，典型的树形实现下时间为O(nlogn)
      */
-    static int lengthOfLongestSubstringLinear(const std::string& s);
-    static int lengthOfLongestSubstringMap(const std::string& s);
+    static int lengthOfLongestSubstringLinear(const std::string &s);
+
+    static int lengthOfLongestSubstringMap(const std::string &s);
 };
 
-class ValidParentheses{
+class ValidParentheses {
 public:
-    static bool isValid(const std::string& s);
+    static bool isValid(const std::string &s);
+};
+
+class RemoveDuplicatesFromSortedArray {
+public:
+    static int removeDuplicates(std::vector<int> &nums);
 };
 
 

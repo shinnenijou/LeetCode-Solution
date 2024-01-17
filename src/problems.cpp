@@ -90,3 +90,15 @@ bool ValidParentheses::isValid(const std::string &s) {
 
     return stack.empty();
 }
+
+int RemoveDuplicatesFromSortedArray::removeDuplicates(std::vector<int> &nums) {
+    int i = 0;  // point to last unique element
+    int j = 1;  // point to current processing element
+
+    for (; j < nums.size(); ++j) {
+        if (nums[j] != nums[i])
+            nums[++i] = nums[j];
+    }
+
+    return i + 1;
+}

@@ -176,3 +176,22 @@ TEST_CASE("ValidParentheses"){
     expect = false;
     REQUIRE(solution::isValid(input) == expect);
 }
+
+TEST_CASE("RemoveDuplicatesFromSortedArray"){
+    using solution = RemoveDuplicatesFromSortedArray;
+
+    std::vector<int> input;
+    int expect;
+
+    input = {1,1,2};
+    expect = 2;
+    REQUIRE(solution::removeDuplicates(input) == expect);
+
+    input = {0,0,1,1,1,2,2,3,3,4};
+    expect = 5;
+    REQUIRE(solution::removeDuplicates(input) == expect);
+
+    input = {0};
+    expect = 1;
+    REQUIRE(solution::removeDuplicates(input) == expect);
+}
