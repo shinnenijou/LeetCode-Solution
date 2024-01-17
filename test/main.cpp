@@ -180,3 +180,26 @@ TEST_CASE("RemoveDuplicatesFromSortedArray"){
     expect = 1;
     REQUIRE(solution::removeDuplicates(input) == expect);
 }
+
+TEST_CASE("RemoveElement"){
+    using solution = RemoveElement;
+
+    std::vector<int> input;
+    int value;
+    int expect;
+
+    input = {3,2,2,3};
+    value = 3;
+    expect = 2;
+    REQUIRE(solution::removeElement(input, value) == expect);
+
+    input = {0,1,2,2,3,0,4,2};
+    value = 2;
+    expect = 5;
+    REQUIRE(solution::removeElement(input, value) == expect);
+
+    input = {0};
+    value = 1;
+    expect = 1;
+    REQUIRE(solution::removeElement(input, value) == expect);
+}

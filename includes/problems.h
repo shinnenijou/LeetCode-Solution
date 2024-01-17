@@ -36,5 +36,10 @@ public:
     static int removeDuplicates(std::vector<int> &nums);
 };
 
+class RemoveElement{
+public:
+    static int removeElement(std::vector<int>& nums, int val);
+};
+
 
 #endif //LEETCODE_SOLUTION_PROBLEMS_H

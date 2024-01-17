@@ -102,3 +102,18 @@ int RemoveDuplicatesFromSortedArray::removeDuplicates(std::vector<int> &nums) {
 
     return i + 1;
 }
+
+int RemoveElement::removeElement(std::vector<int> &nums, int val) {
+    int last = (int)nums.size() - 1;  // point to the last element to be keep
+    int i = 0;  // point to the current processing element
+
+    // 当前元素不需要和last交换, 直接用last覆盖即可
+    while (i <= last){
+        int temp = nums[i];
+        nums[i] = temp == val ? nums[last] : nums[i];
+        last -= (temp == val);
+        i += (temp != val);
+    }
+
+    return last + 1;
+}
