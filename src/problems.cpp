@@ -59,3 +59,58 @@ int LongestSubstringWithoutRepeatingCharacters::lengthOfLongestSubstringMap(cons
 
     return max;
 }
+
+int MaximumSubarray::maxSubArrayDC(vector<int> &nums, int left, int right) {
+    if (right == left){
+        return nums[left];
+    }
+
+    int mid = left + ((right - left) >> 1 );
+
+    int leftMaxSubarray = maxSubArrayDC(nums, left, mid);
+    int rightMaxSubarray = maxSubArrayDC(nums, mid + 1, right);
+    int crossingMaxSubarray = maxCrossingSubArrayDC(nums, left, mid, right);
+
+    int max = leftMaxSubarray;
+    max = rightMaxSubarray > max ? rightMaxSubarray : max;
+    max = crossingMaxSubarray > max ? crossingMaxSubarray : max;
+
+    return max;
+}
+
+int MaximumSubarray::maxCrossingSubArrayDC(vector<int> &nums, int left, int mid, int right) {
+    int leftSum = 0;
+    int leftMax = INT_MIN;
+    int rightSum = 0;
+    int rightMax = INT_MIN;
+
+    for (int i = mid; i >= left; --i){
+        leftSum += nums[i];
+        leftMax = leftSum > leftMax ? leftSum : leftMax;
+    }
+
+    for (int i = mid + 1; i <= right; ++i){
+        rightSum += nums[i];
+        rightMax = rightSum > rightMax ? rightSum : rightMax;
+    }
+
+    return leftMax + rightMax;
+}
+
+int MaximumSubarray::maxSubArrayDC(vector<int> &nums) {
+    return maxSubArrayDC(nums, 0, (int)nums.size() - 1);
+}
+
+int MaximumSubarray::maxSubArrayDP(vector<int> &nums) {
+    int maxSum = nums[0];
+    int prevSum = nums[0];
+
+    for (int i = 1; i < nums.size(); ++i) {
+        prevSum = nums[i] + (prevSum < 0 ? 0 : prevSum);
+        maxSum = prevSum > maxSum ? prevSum : maxSum;
+    }
+
+    return maxSum;
+}
+
+

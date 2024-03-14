@@ -153,3 +153,21 @@ TEST_CASE("ReverseLinkedList") {
     REQUIRE(createVector(output) == expect);
     deleteList(output);
 }
+
+TEST_CASE("MaximumSubarray") {
+    using solution = MaximumSubarray;
+
+    std::vector<int> input;
+
+    input = {-2, 1, -3, 4, -1, 2, 1, -5, 4};
+    REQUIRE(solution::maxSubArrayDP(input) == 6);
+    REQUIRE(solution::maxSubArrayDC(input) == 6);
+
+    input = {1};
+    REQUIRE(solution::maxSubArrayDP(input) == 1);
+    REQUIRE(solution::maxSubArrayDC(input) == 1);
+
+    input = {5, 4, -1, 7, 8};
+    REQUIRE(solution::maxSubArrayDP(input) == 23);
+    REQUIRE(solution::maxSubArrayDC(input) == 23);
+}
