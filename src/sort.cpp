@@ -4,11 +4,11 @@
 
 #include "sort.h"
 
-std::vector<std::pair<std::vector<int>,std::vector<int>>> sortTestCase(){
+std::vector<std::pair<std::vector<int>, std::vector<int>>> sortTestCase() {
     const int MAX_LENGTH = 100;
     const int MAX_VALUE = 10;
 
-    std::vector<std::pair<std::vector<int>,std::vector<int>>> ret;
+    std::vector<std::pair<std::vector<int>, std::vector<int>>> ret;
     std::vector<std::vector<int>> cases;
 
     // random sequences
@@ -16,12 +16,12 @@ std::vector<std::pair<std::vector<int>,std::vector<int>>> sortTestCase(){
     std::mt19937 gen(rd()); // mersenne_twister_engine seeded with rd()
     std::uniform_int_distribution<> distrib(0, MAX_VALUE);
 
-    for (int i = 0; i < MAX_LENGTH; ++i){
+    for (int i = 0; i < MAX_LENGTH; ++i) {
         std::vector<int> temp;
 
         temp.reserve(i);
 
-        for (int j = 0; j < i; ++j){
+        for (int j = 0; j < i; ++j) {
             temp.push_back(distrib(gen));
         }
 
@@ -29,11 +29,11 @@ std::vector<std::pair<std::vector<int>,std::vector<int>>> sortTestCase(){
     }
 
     // A list with all zeros
-    for (int i = 0; i < MAX_LENGTH; ++i){
+    for (int i = 0; i < MAX_LENGTH; ++i) {
         std::vector<int> temp;
         temp.reserve(i);
 
-        for (int j = 0; j < i; ++j){
+        for (int j = 0; j < i; ++j) {
             temp.push_back(0);
         }
 
@@ -41,11 +41,11 @@ std::vector<std::pair<std::vector<int>,std::vector<int>>> sortTestCase(){
     }
 
     // An ordered list
-    for (int i = 0; i < MAX_LENGTH; ++i){
+    for (int i = 0; i < MAX_LENGTH; ++i) {
         std::vector<int> temp;
         temp.reserve(i);
 
-        for (int j = 0; j < i; ++j){
+        for (int j = 0; j < i; ++j) {
             temp.push_back(distrib(gen));
         }
 
@@ -54,11 +54,11 @@ std::vector<std::pair<std::vector<int>,std::vector<int>>> sortTestCase(){
     }
 
     // A reversed list
-    for (int i = 0; i < MAX_LENGTH; ++i){
+    for (int i = 0; i < MAX_LENGTH; ++i) {
         std::vector<int> temp;
         temp.reserve(i);
 
-        for (int j = 0; j < i; ++j){
+        for (int j = 0; j < i; ++j) {
             temp.push_back(distrib(gen));
         }
 
@@ -66,7 +66,7 @@ std::vector<std::pair<std::vector<int>,std::vector<int>>> sortTestCase(){
         cases.push_back(temp);
     }
 
-    for (std::vector<int> vec: cases ) {
+    for (std::vector<int> vec: cases) {
         std::vector<int> temp(vec.begin(), vec.end());
         std::sort(temp.begin(), temp.end());
         ret.emplace_back(vec, temp);
@@ -116,7 +116,8 @@ std::vector<int> PlainMergeSort::sortArray(std::vector<int> &nums) {
     return nums;
 }
 
-void InPlaceMergeSort::_mergeArray(std::vector<int> &nums, size_t leftBegin, size_t leftEnd, size_t rightBegin, size_t rightEnd) {
+void InPlaceMergeSort::_mergeArray(std::vector<int> &nums, size_t leftBegin, size_t leftEnd, size_t rightBegin,
+                                   size_t rightEnd) {
     size_t i = leftBegin;   // point to left sorted part
     size_t j = rightBegin;    // point to right sorted part
     size_t k = rightEnd - (rightEnd - rightBegin + leftEnd - leftBegin); // point to unsorted part(buffer)
@@ -140,10 +141,10 @@ void InPlaceMergeSort::_sortArray(std::vector<int> &nums, size_t unsortedBegin, 
     size_t unsortedEnd = sortedBegin;
 
     // base case使用冒泡
-    if (unsortedEnd - unsortedBegin <= 1){
-        size_t  i = unsortedBegin;
+    if (unsortedEnd - unsortedBegin <= 1) {
+        size_t i = unsortedBegin;
 
-        while (i + 1 < sortedEnd && nums[i] > nums[i + 1]){
+        while (i + 1 < sortedEnd && nums[i] > nums[i + 1]) {
             std::swap(nums[i], nums[i + 1]);
             i++;
         }
@@ -170,3 +171,43 @@ std::vector<int> InPlaceMergeSort::sortArray(std::vector<int> &nums) {
     return nums;
 }
 
+
+void HeapSort::buildMaxHeap(vector<int> &nums) {
+    for (int i = (((int) nums.size()) - 1) >> 1; i >= 0; --i) {
+        maxHeapify(nums, i);
+    }
+}
+
+vector<int> HeapSort::sortArray(vector<int> &nums) {
+    heapSize = (int) nums.size();
+    buildMaxHeap(nums);
+
+    for (int i = (int) nums.size() - 1; i >= 0; --i) {
+        int temp = nums[0];
+        nums[0] = nums[i];
+        nums[i] = temp;
+        heapSize--;
+        maxHeapify(nums, 0);
+    }
+
+    return nums;
+}
+
+void HeapSort::maxHeapify(vector<int> &nums, int i) {
+    if (leftChild(i) >= heapSize) {
+        return;
+    }
+
+    int largest = nums[leftChild(i)] > nums[i] ? leftChild(i) : i;
+
+    if (rightChild(i) < heapSize) {
+        largest = nums[rightChild(i)] > nums[largest] ? rightChild(i) : largest;
+    }
+
+    if (largest != i) {
+        int temp = nums[i];
+        nums[i] = nums[largest];
+        nums[largest] = temp;
+        maxHeapify(nums, largest);
+    }
+}

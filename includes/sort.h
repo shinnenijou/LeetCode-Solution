@@ -8,19 +8,21 @@
 #include <vector>
 #include <utility>
 
-std::vector<std::pair<std::vector<int>,std::vector<int>>> sortTestCase();
+using std::vector;
+
+vector<std::pair<vector<int>, vector<int>>> sortTestCase();
 
 /*
  * 原地归并, 不使用额外辅助空间而是使用内部空间作为缓存, 比朴素归并排序的时间复杂度有常数项差异
  */
 class InPlaceMergeSort {
 private:
-    static void _mergeArray(std::vector<int> &nums, size_t leftBegin, size_t leftEnd, size_t rightBegin, size_t rightEnd);
+    static void _mergeArray(vector<int> &nums, size_t leftBegin, size_t leftEnd, size_t rightBegin, size_t rightEnd);
 
-    static void _sortArray(std::vector<int> &nums, size_t unsortedBegin, size_t sortedBegin, size_t sortedEnd);
+    static void _sortArray(vector<int> &nums, size_t unsortedBegin, size_t sortedBegin, size_t sortedEnd);
 
 public:
-    static std::vector<int> sortArray(std::vector<int> &nums);
+    static vector<int> sortArray(vector<int> &nums);
 };
 
 /*
@@ -28,13 +30,31 @@ public:
  */
 class PlainMergeSort {
 private:
-    static void _mergeArray(std::vector<int> &nums, std::vector<int> &buffer, size_t left, size_t mid, size_t right);
+    static void _mergeArray(vector<int> &nums, vector<int> &buffer, size_t left, size_t mid, size_t right);
 
-    static void _sortArray(std::vector<int> &nums, std::vector<int> &buffer, size_t left, size_t right);
+    static void _sortArray(vector<int> &nums, vector<int> &buffer, size_t left, size_t right);
 
 public:
-    static std::vector<int> sortArray(std::vector<int> &nums);
+    static vector<int> sortArray(vector<int> &nums);
 };
 
+class HeapSort {
+private:
+    int heapSize = 0;
+    int arraySize = 0;
+
+    static int parent(int i) { return (i - 1) >> 1; }
+
+    static int leftChild(int i) { return (i << 1) + 1; }
+
+    static int rightChild(int i) { return (i << 1) + 2; }
+
+    void maxHeapify(vector<int> &nums, int i);
+
+    void buildMaxHeap(vector<int> &nums);
+
+public:
+    vector<int> sortArray(vector<int> &nums);
+};
 
 #endif //LEETCODE_SOLUTION_SORT_H

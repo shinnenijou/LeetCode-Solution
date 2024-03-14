@@ -22,6 +22,15 @@ TEST_CASE("InplaceMergeSort") {
     }
 }
 
+TEST_CASE("HeapSort"){
+    auto solution = HeapSort();
+
+    auto test_cases = sortTestCase();
+    for (auto test_case: test_cases) {
+        REQUIRE(solution.sortArray(test_case.first) == test_case.second);
+    }
+}
+
 TEST_CASE("TwoSum") {
     using solution = TwoSum;
 
