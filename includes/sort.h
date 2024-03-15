@@ -57,4 +57,14 @@ public:
     vector<int> sortArray(vector<int> &nums);
 };
 
+class QuickSort {
+private:
+    static int partition(vector<int> &nums, int left, int right);
+
+    static void quickSort(vector<int> &nums, int left, int right);
+
+public:
+    static vector<int> sortArray(vector<int> &nums);
+};
+
 #endif //LEETCODE_SOLUTION_SORT_H

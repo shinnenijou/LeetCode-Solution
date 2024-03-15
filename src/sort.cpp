@@ -211,3 +211,35 @@ void HeapSort::maxHeapify(vector<int> &nums, int i) {
         maxHeapify(nums, largest);
     }
 }
+
+vector<int> QuickSort::sortArray(vector<int> &nums) {
+    quickSort(nums, 0, (int)nums.size() - 1);
+    return nums;
+}
+
+int QuickSort::partition(vector<int> &nums, int left, int right) {
+    int x = nums[right];
+
+    int j = left - 1;
+    for (int i = left; i < right; ++i){
+        if (nums[i] < x){
+            j++;
+            std::swap(nums[i], nums[j]);
+        }
+    }
+
+    j++;
+    std::swap(nums[right], nums[j]);
+
+    return j;
+}
+
+void QuickSort::quickSort(vector<int> &nums, int left, int right) {
+    if (right <= left){
+        return;
+    }
+
+    int mid = partition(nums, left, right);
+    quickSort(nums, left, mid - 1);
+    quickSort(nums, mid + 1, right);
+}
