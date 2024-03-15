@@ -40,6 +40,15 @@ TEST_CASE("QuickSort"){
     }
 }
 
+TEST_CASE("CountingSort"){
+    auto solution = CountingSort(11);
+
+    auto test_cases = sortTestCase();
+    for (auto test_case: test_cases) {
+        REQUIRE(solution.sortArray(test_case.first) == test_case.second);
+    }
+}
+
 TEST_CASE("TwoSum") {
     using solution = TwoSum;
 

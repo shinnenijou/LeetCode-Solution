@@ -243,3 +243,23 @@ void QuickSort::quickSort(vector<int> &nums, int left, int right) {
     quickSort(nums, left, mid - 1);
     quickSort(nums, mid + 1, right);
 }
+
+vector<int> CountingSort::sortArray(vector<int> &nums) {
+    vector<int> count(valueScale, 0);
+    vector<int> result(nums.size());
+
+    for (int num : nums){
+        count[num]++;
+    }
+
+    for (int i = 1; i < count.size(); ++i){
+        count[i] = count[i] + count[i - 1];
+    }
+
+    for (int i = (int)nums.size() - 1; i >= 0; --i){
+        result[count[nums[i]] - 1] = nums[i];
+        count[nums[i]]--;
+    }
+
+    return result;
+}

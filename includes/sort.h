@@ -67,4 +67,13 @@ public:
     static vector<int> sortArray(vector<int> &nums);
 };
 
+class CountingSort {
+private:
+    int valueScale = 0;
+public:
+    explicit CountingSort(int x) : valueScale(x) {}
+
+    vector<int> sortArray(vector<int> &nums);
+};
+
 #endif //LEETCODE_SOLUTION_SORT_H
