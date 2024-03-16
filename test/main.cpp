@@ -237,3 +237,41 @@ TEST_CASE("ForwardList") {
     list.pop_back();
     REQUIRE(list.empty() == true);
 }
+
+TEST_CASE("DualList") {
+    DualList<int> list;
+
+    list.push_back(1);
+    REQUIRE(list.toVector() == vector<int>({1}));
+
+    list.pop_back();
+    REQUIRE(list.toVector() == vector<int>({}));
+
+    list.push_front(1);
+    REQUIRE(list.toVector() == vector<int>({1}));
+
+    list.pop_front();
+    REQUIRE(list.toVector() == vector<int>({}));
+
+    list.push_back(1);
+    list.push_front(2);
+    REQUIRE(list.toVector() == vector<int>({2, 1}));
+
+    list.pop_front();
+    list.pop_front();
+    REQUIRE(list.toVector() == vector<int>({}));
+
+    list.push_back(1);
+    list.push_front(2);
+    REQUIRE(list.toVector() == vector<int>({2, 1}));
+
+    list.pop_back();
+    list.pop_back();
+    REQUIRE(list.toVector() == vector<int>({}));
+
+    list.push_back(1);
+    list.push_front(2);
+    list.push_back(3);
+    list.push_front(4);
+    REQUIRE(list.toVector() == vector<int>({4, 2, 1, 3}));
+}
