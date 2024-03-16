@@ -17,11 +17,11 @@ vector<std::pair<vector<int>, vector<int>>> sortTestCase();
  */
 class InPlaceMergeSort {
 private:
-    static void _mergeArray(vector<int> &nums, size_t leftBegin, size_t leftEnd, size_t rightBegin, size_t rightEnd);
-
-    static void _sortArray(vector<int> &nums, size_t unsortedBegin, size_t sortedBegin, size_t sortedEnd);
+    static void mergeArray(vector<int> &nums, size_t leftBegin, size_t leftEnd, size_t rightBegin, size_t rightEnd);
 
 public:
+    static void sortArray(vector<int> &nums, size_t unsortedBegin, size_t sortedBegin, size_t sortedEnd);
+
     static vector<int> sortArray(vector<int> &nums);
 };
 
@@ -30,18 +30,17 @@ public:
  */
 class PlainMergeSort {
 private:
-    static void _mergeArray(vector<int> &nums, vector<int> &buffer, size_t left, size_t mid, size_t right);
-
-    static void _sortArray(vector<int> &nums, vector<int> &buffer, size_t left, size_t right);
+    static void mergeArray(vector<int> &nums, vector<int> &buffer, size_t left, size_t mid, size_t right);
 
 public:
+    static void sortArray(vector<int> &nums, vector<int> &buffer, size_t left, size_t right);
+
     static vector<int> sortArray(vector<int> &nums);
 };
 
 class HeapSort {
 private:
     int heapSize = 0;
-    int arraySize = 0;
 
     static int parent(int i) { return (i - 1) >> 1; }
 
@@ -61,9 +60,9 @@ class QuickSort {
 private:
     static int partition(vector<int> &nums, int left, int right);
 
-    static void quickSort(vector<int> &nums, int left, int right);
-
 public:
+    static void sortArray(vector<int> &nums, int left, int right);
+
     static vector<int> sortArray(vector<int> &nums);
 };
 
