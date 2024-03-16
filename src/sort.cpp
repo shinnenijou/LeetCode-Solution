@@ -172,28 +172,28 @@ std::vector<int> InPlaceMergeSort::sortArray(std::vector<int> &nums) {
 }
 
 
-void HeapSort::buildMaxHeap(vector<int> &nums) {
+void HeapSort::buildMaxHeap(vector<int> &nums, int heapSize) {
     for (int i = (((int) nums.size()) - 1) >> 1; i >= 0; --i) {
-        maxHeapify(nums, i);
+        maxHeapify(nums, i, heapSize);
     }
 }
 
 vector<int> HeapSort::sortArray(vector<int> &nums) {
-    heapSize = (int) nums.size();
-    buildMaxHeap(nums);
+    int heapSize = (int) nums.size();
+    buildMaxHeap(nums, heapSize);
 
     for (int i = (int) nums.size() - 1; i >= 0; --i) {
         int temp = nums[0];
         nums[0] = nums[i];
         nums[i] = temp;
         heapSize--;
-        maxHeapify(nums, 0);
+        maxHeapify(nums, 0, heapSize);
     }
 
     return nums;
 }
 
-void HeapSort::maxHeapify(vector<int> &nums, int i) {
+void HeapSort::maxHeapify(vector<int> &nums, int i, int heapSize) {
     if (leftChild(i) >= heapSize) {
         return;
     }
@@ -208,7 +208,7 @@ void HeapSort::maxHeapify(vector<int> &nums, int i) {
         int temp = nums[i];
         nums[i] = nums[largest];
         nums[largest] = temp;
-        maxHeapify(nums, largest);
+        maxHeapify(nums, largest, heapSize);
     }
 }
 
@@ -221,8 +221,8 @@ int QuickSort::partition(vector<int> &nums, int left, int right) {
     int x = nums[right];
 
     int j = left - 1;
-    for (int i = left; i < right; ++i){
-        if (nums[i] < x){
+    for (int i = left; i < right; ++i) {
+        if (nums[i] < x) {
             j++;
             std::swap(nums[i], nums[j]);
         }
@@ -235,7 +235,7 @@ int QuickSort::partition(vector<int> &nums, int left, int right) {
 }
 
 void QuickSort::sortArray(vector<int> &nums, int left, int right) {
-    if (right <= left){
+    if (right <= left) {
         return;
     }
 
@@ -244,19 +244,19 @@ void QuickSort::sortArray(vector<int> &nums, int left, int right) {
     sortArray(nums, mid + 1, right);
 }
 
-vector<int> CountingSort::sortArray(vector<int> &nums) {
-    vector<int> count(valueScale, 0);
+vector<int> CountingSort::sortArray(vector<int> &nums, int range) {
+    vector<int> count(range, 0);
     vector<int> result(nums.size());
 
-    for (int num : nums){
+    for (int num: nums) {
         count[num]++;
     }
 
-    for (int i = 1; i < count.size(); ++i){
+    for (int i = 1; i < count.size(); ++i) {
         count[i] = count[i] + count[i - 1];
     }
 
-    for (int i = (int)nums.size() - 1; i >= 0; --i){
+    for (int i = (int) nums.size() - 1; i >= 0; --i) {
         result[count[nums[i]] - 1] = nums[i];
         count[nums[i]]--;
     }
@@ -265,9 +265,9 @@ vector<int> CountingSort::sortArray(vector<int> &nums) {
 }
 
 vector<int> InsertSort::sortArray(vector<int> &nums) {
-    for (int i = 0; i < nums.size(); ++i){
-        for (int j = i - 1; j >= 0; --j){
-            if (nums[j] > nums[j + 1]){
+    for (int i = 0; i < nums.size(); ++i) {
+        for (int j = i - 1; j >= 0; --j) {
+            if (nums[j] > nums[j + 1]) {
                 std::swap(nums[j], nums[j + 1]);
             }
         }

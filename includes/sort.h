@@ -48,20 +48,18 @@ public:
 
 class HeapSort {
 private:
-    int heapSize = 0;
-
     static int parent(int i) { return (i - 1) >> 1; }
 
     static int leftChild(int i) { return (i << 1) + 1; }
 
     static int rightChild(int i) { return (i << 1) + 2; }
 
-    void maxHeapify(vector<int> &nums, int i);
+    static void maxHeapify(vector<int> &nums, int i, int heapSize);
 
-    void buildMaxHeap(vector<int> &nums);
+    static void buildMaxHeap(vector<int> &nums, int heapSize);
 
 public:
-    vector<int> sortArray(vector<int> &nums);
+    static vector<int> sortArray(vector<int> &nums);
 };
 
 class QuickSort {
@@ -75,12 +73,8 @@ public:
 };
 
 class CountingSort {
-private:
-    int valueScale = 0;
 public:
-    explicit CountingSort(int x) : valueScale(x) {}
-
-    vector<int> sortArray(vector<int> &nums);
+    static vector<int> sortArray(vector<int> &nums, int range);
 };
 
 #endif //LEETCODE_SOLUTION_SORT_H
