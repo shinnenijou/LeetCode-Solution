@@ -10,6 +10,32 @@
 
 using std::vector;
 
+
+/**
+ * Definition for singly-linked list.
+ */
+struct ListNode {
+    int val;
+    ListNode *next;
+
+    ListNode() : val(-1), next(nullptr) {}
+
+    explicit ListNode(int x) : val(x), next(nullptr) {}
+
+    ListNode(int x, ListNode *next) : val(x), next(next) {}
+};
+
+ListNode *createList(const std::vector<int> &values);
+
+void deleteList(ListNode *head);
+
+std::vector<int> createVector(ListNode *head);
+
+class AddTwoNumbers {
+public:
+    static ListNode *addTwoNumbers(ListNode *l0, ListNode *l2);
+};
+
 class TwoSum {
 public:
     static vector<int> twoSum(vector<int> &nums, int target);
@@ -28,6 +54,18 @@ public:
     static int lengthOfLongestSubstringMap(const std::string &s);
 };
 
+class ReverseLinkedList {
+private:
+    ListNode *newHead = nullptr;
+
+    ListNode *_reverseListRecursive(ListNode *head);
+
+public:
+    ListNode *reverseListRecursive(ListNode *head);
+
+    ListNode *reverseListIterative(ListNode *head);
+};
+
 class MaximumSubarray {
 public:
     /*
@@ -42,7 +80,14 @@ public:
 
 private:
     static int maxCrossingSubArrayDC(vector<int> &nums, int left, int mid, int right);
+
     static int maxSubArrayDC(vector<int> &nums, int left, int right);
+};
+
+class FindRepeatDocument {
+private:
+
+    static int findRepeatDocument(vector<int> &documents);
 };
 
 #endif //LEETCODE_SOLUTION_PROBLEMS_H
