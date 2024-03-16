@@ -2,30 +2,35 @@
 #define LEETCODE_SOLUTION_LIST_HPP
 
 #include <stdexcept>
+#include <vector>
 
 template<class ValueType>
 class List {
     struct ListNode {
         ValueType val;
         ListNode *next;
+
         explicit ListNode(ValueType value) : val(value), next(nullptr) {}
     };
+
 protected:
     ListNode *head = nullptr;
     ListNode *rear = nullptr;
 public:
     [[nodiscard]] inline bool empty() const { return head == nullptr; }
 
+    vector<ValueType> toVector() const;
+
     void push_back(ValueType value);
 
     void pop_back();
 
-    const ValueType & back() const;
+    const ValueType &back() const;
 
     const ValueType &front() const;
 
-    virtual ~List(){
-        while (head != nullptr){
+    virtual ~List() {
+        while (head) {
             ListNode *temp = head;
             head = head->next;
             delete temp;
@@ -34,8 +39,26 @@ public:
 };
 
 template<class ValueType>
+vector<ValueType> List<ValueType>::toVector() const {
+    vector<ValueType> ret;
+
+    if (empty()) {
+        return ret;
+    }
+
+    ListNode *node = head;
+
+    while (node) {
+        ret.insert(ret.begin(), node->val);
+        node = node->next;
+    }
+
+    return ret;
+}
+
+template<class ValueType>
 const ValueType &List<ValueType>::front() const {
-    if (empty()){
+    if (empty()) {
         throw std::out_of_range("List underflow");
     }
 
@@ -43,8 +66,8 @@ const ValueType &List<ValueType>::front() const {
 }
 
 template<class ValueType>
-const ValueType & List<ValueType>::back() const {
-    if (empty()){
+const ValueType &List<ValueType>::back() const {
+    if (empty()) {
         throw std::out_of_range("List underflow");
     }
 
@@ -53,7 +76,7 @@ const ValueType & List<ValueType>::back() const {
 
 template<class ValueType>
 void List<ValueType>::pop_back() {
-    if (empty()){
+    if (empty()) {
         throw std::out_of_range("List underflow");
     }
 
@@ -61,7 +84,7 @@ void List<ValueType>::pop_back() {
 
     head = head->next;
 
-    if (empty()){
+    if (empty()) {
         rear = nullptr;
     }
 
@@ -72,10 +95,9 @@ template<class ValueType>
 void List<ValueType>::push_back(ValueType value) {
     auto node = new ListNode(value);
 
-    if (empty()){
+    if (empty()) {
         head = rear = node;
-    }
-    else{
+    } else {
         node->next = head;
         head = node;
     }

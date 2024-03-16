@@ -23,7 +23,7 @@ TEST_CASE("InplaceMergeSort") {
     }
 }
 
-TEST_CASE("HeapSort"){
+TEST_CASE("HeapSort") {
     auto solution = HeapSort();
 
     auto test_cases = sortTestCase();
@@ -32,7 +32,7 @@ TEST_CASE("HeapSort"){
     }
 }
 
-TEST_CASE("QuickSort"){
+TEST_CASE("QuickSort") {
     using solution = QuickSort;
 
     auto test_cases = sortTestCase();
@@ -41,7 +41,7 @@ TEST_CASE("QuickSort"){
     }
 }
 
-TEST_CASE("CountingSort"){
+TEST_CASE("CountingSort") {
     auto solution = CountingSort(11);
 
     auto test_cases = sortTestCase();
@@ -200,7 +200,7 @@ TEST_CASE("MaximumSubarray") {
     REQUIRE(solution::maxSubArrayDC(input) == 23);
 }
 
-TEST_CASE("PriorityQueue"){
+TEST_CASE("PriorityQueue") {
     PriorityQueue<int, int> pQueue;
 
     pQueue.push(5, 1);
@@ -215,33 +215,25 @@ TEST_CASE("PriorityQueue"){
     pQueue.pop();
 }
 
-TEST_CASE("ForwardList"){
+TEST_CASE("ForwardList") {
     List<int> list;
 
     list.push_back(1);
-    REQUIRE(list.back() == 1);
-    REQUIRE(list.front() == 1);
+    REQUIRE(list.toVector() == vector<int>({1}));
 
     list.push_back(2);
-    REQUIRE(list.back() == 2);
-    REQUIRE(list.front() == 1);
+    REQUIRE(list.toVector() == vector<int>({1, 2}));
+
 
     list.push_back(3);
-    REQUIRE(list.back() == 3);
-    REQUIRE(list.front() == 1);
+    REQUIRE(list.toVector() == vector<int>({1, 2, 3}));
 
     list.pop_back();
-    REQUIRE(list.back() == 2);
-    REQUIRE(list.front() == 1);
+    REQUIRE(list.toVector() == vector<int>({1, 2}));
 
     list.pop_back();
-    REQUIRE(list.back() == 1);
-    REQUIRE(list.front() == 1);
+    REQUIRE(list.toVector() == vector<int>({1}));
 
     list.pop_back();
     REQUIRE(list.empty() == true);
-
-    list.push_back(1);
-    list.push_back(2);
-    list.push_back(3);
 }
