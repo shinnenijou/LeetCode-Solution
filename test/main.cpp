@@ -1,9 +1,9 @@
 #include "catch_amalgamated.hpp"
 
 #include "sort.h"
-#include "list.h"
 #include "problems.h"
 #include "heap.hpp"
+#include "list.hpp"
 
 TEST_CASE("PlainMergeSort") {
     using solution = PlainMergeSort;
@@ -213,4 +213,35 @@ TEST_CASE("PriorityQueue"){
     pQueue.pop();
     REQUIRE(pQueue.top().second == 10);
     pQueue.pop();
+}
+
+TEST_CASE("ForwardList"){
+    List<int> list;
+
+    list.push_back(1);
+    REQUIRE(list.back() == 1);
+    REQUIRE(list.front() == 1);
+
+    list.push_back(2);
+    REQUIRE(list.back() == 2);
+    REQUIRE(list.front() == 1);
+
+    list.push_back(3);
+    REQUIRE(list.back() == 3);
+    REQUIRE(list.front() == 1);
+
+    list.pop_back();
+    REQUIRE(list.back() == 2);
+    REQUIRE(list.front() == 1);
+
+    list.pop_back();
+    REQUIRE(list.back() == 1);
+    REQUIRE(list.front() == 1);
+
+    list.pop_back();
+    REQUIRE(list.empty() == true);
+
+    list.push_back(1);
+    list.push_back(2);
+    list.push_back(3);
 }
