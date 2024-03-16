@@ -74,7 +74,8 @@ public:
 
 class CountingSort {
 public:
-    static vector<int> sortArray(vector<int> &nums, int range);
+    static vector<int> sortArray(vector<int> &nums, int minValue, int maxValue);
+    static vector<int> sortArray(vector<int> &nums);
 };
 
 #endif //LEETCODE_SOLUTION_SORT_H

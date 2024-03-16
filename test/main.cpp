@@ -55,7 +55,7 @@ TEST_CASE("CountingSort") {
 
     auto test_cases = sortTestCase();
     for (auto test_case: test_cases) {
-        REQUIRE(solution::sortArray(test_case.first, 11) == test_case.second);
+        REQUIRE(solution::sortArray(test_case.first) == test_case.second);
     }
 }
 

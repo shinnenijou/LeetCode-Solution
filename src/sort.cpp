@@ -1,12 +1,13 @@
 #include <algorithm>
 #include <random>
-#include <functional>
+#include <cmath>
 
 #include "sort.h"
 
 std::vector<std::pair<std::vector<int>, std::vector<int>>> sortTestCase() {
     const int MAX_LENGTH = 100;
-    const int MAX_VALUE = 10;
+    const int MAX_VALUE = 23;
+    const int MIN_VALUE = -23;
 
     std::vector<std::pair<std::vector<int>, std::vector<int>>> ret;
     std::vector<std::vector<int>> cases;
@@ -14,7 +15,7 @@ std::vector<std::pair<std::vector<int>, std::vector<int>>> sortTestCase() {
     // random sequences
     std::random_device rd;  // a seed source for the random number engine
     std::mt19937 gen(rd()); // mersenne_twister_engine seeded with rd()
-    std::uniform_int_distribution<> distrib(0, MAX_VALUE);
+    std::uniform_int_distribution<> distrib(MIN_VALUE, MAX_VALUE);
 
     for (int i = 0; i < MAX_LENGTH; ++i) {
         std::vector<int> temp;
@@ -244,12 +245,12 @@ void QuickSort::sortArray(vector<int> &nums, int left, int right) {
     sortArray(nums, mid + 1, right);
 }
 
-vector<int> CountingSort::sortArray(vector<int> &nums, int range) {
-    vector<int> count(range, 0);
+vector<int> CountingSort::sortArray(vector<int> &nums, int minValue, int maxValue) {
+    vector<int> count(maxValue - minValue + 1, 0);
     vector<int> result(nums.size());
 
     for (int num: nums) {
-        count[num]++;
+        count[num - minValue]++;
     }
 
     for (int i = 1; i < count.size(); ++i) {
@@ -257,11 +258,43 @@ vector<int> CountingSort::sortArray(vector<int> &nums, int range) {
     }
 
     for (int i = (int) nums.size() - 1; i >= 0; --i) {
-        result[count[nums[i]] - 1] = nums[i];
-        count[nums[i]]--;
+        result[count[nums[i] - minValue] - 1] = nums[i];
+        count[nums[i] - minValue]--;
     }
 
     return result;
+}
+
+vector<int> CountingSort::sortArray(vector<int> &nums) {
+    if (nums.empty()){
+        return nums;
+    }
+
+    int min = 0;
+    int max = 0;
+    int i = 0;
+
+    if (nums.size() & 1){
+        min = max = nums[0];
+        i = 2;
+    }else{
+        min = nums[0] <= nums[1] ? nums[0] : nums[1];
+        max = nums[0] <= nums[1] ? nums[1] : nums[0];
+        i = 3;
+    }
+
+    for (; i < nums.size(); i += 2){
+        if (nums[i] > nums[i - 1] ){
+            min = nums[i - 1] < min ? nums[i - 1] : min;
+            max = nums[i] > max ? nums[i] : max;
+        }
+        else{
+            min = nums[i] < min ? nums[i] : min;
+            max = nums[i - 1] > max ? nums[i - 1] : max;
+        }
+    }
+
+    return sortArray(nums, min, max);
 }
 
 vector<int> InsertSort::sortArray(vector<int> &nums) {
@@ -275,3 +308,4 @@ vector<int> InsertSort::sortArray(vector<int> &nums) {
 
     return nums;
 }
+
