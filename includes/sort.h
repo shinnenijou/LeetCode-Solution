@@ -13,6 +13,14 @@ using std::vector;
 vector<std::pair<vector<int>, vector<int>>> sortTestCase();
 
 /*
+ * 插入排序
+ * */
+class InsertSort{
+public:
+    static vector<int> sortArray(vector<int> &nums);
+};
+
+/*
  * 原地归并, 不使用额外辅助空间而是使用内部空间作为缓存, 比朴素归并排序的时间复杂度有常数项差异
  */
 class InPlaceMergeSort {

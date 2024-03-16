@@ -263,3 +263,15 @@ vector<int> CountingSort::sortArray(vector<int> &nums) {
 
     return result;
 }
+
+vector<int> InsertSort::sortArray(vector<int> &nums) {
+    for (int i = 0; i < nums.size(); ++i){
+        for (int j = i - 1; j >= 0; --j){
+            if (nums[j] > nums[j + 1]){
+                std::swap(nums[j], nums[j + 1]);
+            }
+        }
+    }
+
+    return nums;
+}

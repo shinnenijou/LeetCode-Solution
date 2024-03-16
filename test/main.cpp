@@ -5,6 +5,15 @@
 #include "heap.hpp"
 #include "list.hpp"
 
+TEST_CASE("InsertSort") {
+    using solution = InsertSort;
+
+    auto test_cases = sortTestCase();
+    for (auto test_case: test_cases) {
+        REQUIRE(solution::sortArray(test_case.first) == test_case.second);
+    }
+}
+
 TEST_CASE("PlainMergeSort") {
     using solution = PlainMergeSort;
 
