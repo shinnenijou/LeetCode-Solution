@@ -33,7 +33,7 @@ public:
 
     void pop();
 
-    const pair<KeyType, ValueType> &top();
+    const pair<KeyType, ValueType> &top() const;
 };
 
 template<class KeyType, class ValueType>
@@ -48,7 +48,7 @@ void PriorityQueue<KeyType, ValueType>::pop() {
 }
 
 template<class KeyType, class ValueType>
-const pair<KeyType, ValueType> &PriorityQueue<KeyType, ValueType>::top() {
+const pair<KeyType, ValueType> &PriorityQueue<KeyType, ValueType>::top() const {
     return heap[0];
 }
 
