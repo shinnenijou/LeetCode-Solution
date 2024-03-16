@@ -3,6 +3,7 @@
 #include "sort.h"
 #include "list.h"
 #include "problems.h"
+#include "heap.hpp"
 
 TEST_CASE("PlainMergeSort") {
     using solution = PlainMergeSort;
@@ -197,4 +198,19 @@ TEST_CASE("MaximumSubarray") {
     input = {5, 4, -1, 7, 8};
     REQUIRE(solution::maxSubArrayDP(input) == 23);
     REQUIRE(solution::maxSubArrayDC(input) == 23);
+}
+
+TEST_CASE("PriorityQueue"){
+    PriorityQueue<int, int> pQueue;
+
+    pQueue.push(5, 1);
+    pQueue.push(1, 10);
+    pQueue.push(10, 100);
+
+    REQUIRE(pQueue.top().second == 100);
+    pQueue.pop();
+    REQUIRE(pQueue.top().second == 1);
+    pQueue.pop();
+    REQUIRE(pQueue.top().second == 10);
+    pQueue.pop();
 }
