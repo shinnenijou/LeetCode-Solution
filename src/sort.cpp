@@ -99,21 +99,62 @@ PlainMergeSort::mergeArray(vector<int> &nums, vector<int> &buffer, size_t left, 
     }
 }
 
-void PlainMergeSort::sortArray(vector<int> &nums, vector<int> &buffer, size_t left, size_t right) {
-    if (right - left <= 1) {
-        return;
+std::vector<int> PlainMergeSort::sortArray(std::vector<int> &nums) {
+    vector<int> buffer(nums.size());
+
+    const int SORT_TYPE = 0;
+    const int MERGE_TYPE = 1;
+
+    vector<int> stack;
+    stack.push_back(0);
+    stack.push_back((int)nums.size());
+    stack.push_back(SORT_TYPE);
+
+    while(!stack.empty()) {
+        int type = stack.back();
+        stack.pop_back();
+
+        if (type == SORT_TYPE){
+            int right = stack.back();
+            stack.pop_back();
+
+            int left = stack.back();
+            stack.pop_back();
+
+            if (right - left <= 1) {
+                continue;
+            }
+
+            int mid = left + ((right - left) >> 1);
+
+            stack.push_back(left);
+            stack.push_back(mid);
+            stack.push_back(right);
+            stack.push_back(MERGE_TYPE);
+
+            stack.push_back(left);
+            stack.push_back(mid);
+            stack.push_back(SORT_TYPE);
+
+            stack.push_back(mid);
+            stack.push_back(right);
+            stack.push_back(SORT_TYPE);
+        }
+        else if (type == MERGE_TYPE){
+           int right = stack.back();
+           stack.pop_back();
+
+           int mid = stack.back();
+           stack.pop_back();
+
+           int left = stack.back();
+           stack.pop_back();
+
+           mergeArray(nums, buffer, left, mid, right);
+        }
+
     }
 
-    size_t mid = left + ((right - left) >> 1);
-
-    sortArray(nums, buffer, left, mid);
-    sortArray(nums, buffer, mid, right);
-    mergeArray(nums, buffer, left, mid, right);
-}
-
-std::vector<int> PlainMergeSort::sortArray(std::vector<int> &nums) {
-    std::vector<int> buffer(nums.size());
-    sortArray(nums, buffer, 0, nums.size());
     return nums;
 }
 
@@ -195,27 +236,20 @@ vector<int> HeapSort::sortArray(vector<int> &nums) {
 }
 
 void HeapSort::maxHeapify(vector<int> &nums, int i, int heapSize) {
-    if (leftChild(i) >= heapSize) {
-        return;
+    while (leftChild(i) < heapSize) {
+        int largest = nums[leftChild(i)] > nums[i] ? leftChild(i) : i;
+
+        if (rightChild(i) < heapSize) {
+            largest = nums[rightChild(i)] > nums[largest] ? rightChild(i) : largest;
+        }
+
+        if (largest == i) {
+            break;
+        }
+
+        std::swap(nums[i], nums[largest]);
+        i = largest;
     }
-
-    int largest = nums[leftChild(i)] > nums[i] ? leftChild(i) : i;
-
-    if (rightChild(i) < heapSize) {
-        largest = nums[rightChild(i)] > nums[largest] ? rightChild(i) : largest;
-    }
-
-    if (largest != i) {
-        int temp = nums[i];
-        nums[i] = nums[largest];
-        nums[largest] = temp;
-        maxHeapify(nums, largest, heapSize);
-    }
-}
-
-vector<int> QuickSort::sortArray(vector<int> &nums) {
-    sortArray(nums, 0, (int) nums.size() - 1);
-    return nums;
 }
 
 int QuickSort::partition(vector<int> &nums, int left, int right) {
@@ -235,14 +269,33 @@ int QuickSort::partition(vector<int> &nums, int left, int right) {
     return j;
 }
 
-void QuickSort::sortArray(vector<int> &nums, int left, int right) {
-    if (right <= left) {
-        return;
+vector<int> QuickSort::sortArray(vector<int> &nums) {
+    vector<int> stack;
+
+    stack.push_back(0);
+    stack.push_back((int) nums.size() - 1);
+
+    while (!stack.empty()) {
+        int stackRight = stack.back();
+        stack.pop_back();
+
+        int stackLeft = stack.back();
+        stack.pop_back();
+
+        if (stackRight <= stackLeft) {
+            continue;
+        }
+
+        int mid = partition(nums, stackLeft, stackRight);
+
+        stack.push_back(mid + 1);
+        stack.push_back(stackRight);
+
+        stack.push_back(stackLeft);
+        stack.push_back(mid - 1);
     }
 
-    int mid = partition(nums, left, right);
-    sortArray(nums, left, mid - 1);
-    sortArray(nums, mid + 1, right);
+    return nums;
 }
 
 vector<int> CountingSort::sortArray(vector<int> &nums, int minValue, int maxValue) {
@@ -266,7 +319,7 @@ vector<int> CountingSort::sortArray(vector<int> &nums, int minValue, int maxValu
 }
 
 vector<int> CountingSort::sortArray(vector<int> &nums) {
-    if (nums.empty()){
+    if (nums.empty()) {
         return nums;
     }
 
@@ -274,21 +327,20 @@ vector<int> CountingSort::sortArray(vector<int> &nums) {
     int max = 0;
     int i = 0;
 
-    if (nums.size() & 1){
+    if (nums.size() & 1) {
         min = max = nums[0];
         i = 2;
-    }else{
+    } else {
         min = nums[0] <= nums[1] ? nums[0] : nums[1];
         max = nums[0] <= nums[1] ? nums[1] : nums[0];
         i = 3;
     }
 
-    for (; i < nums.size(); i += 2){
-        if (nums[i] > nums[i - 1] ){
+    for (; i < nums.size(); i += 2) {
+        if (nums[i] > nums[i - 1]) {
             min = nums[i - 1] < min ? nums[i - 1] : min;
             max = nums[i] > max ? nums[i] : max;
-        }
-        else{
+        } else {
             min = nums[i] < min ? nums[i] : min;
             max = nums[i - 1] > max ? nums[i - 1] : max;
         }
