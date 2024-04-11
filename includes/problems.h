@@ -8,9 +8,37 @@
 #include <vector>
 #include <string>
 
+using std::vector;
+
+
+/**
+ * Definition for singly-linked list.
+ */
+struct ListNode {
+    int val;
+    ListNode *next;
+
+    ListNode() : val(-1), next(nullptr) {}
+
+    explicit ListNode(int x) : val(x), next(nullptr) {}
+
+    ListNode(int x, ListNode *next) : val(x), next(next) {}
+};
+
+ListNode *createList(const std::vector<int> &values);
+
+void deleteList(ListNode *head);
+
+std::vector<int> createVector(ListNode *head);
+
+class AddTwoNumbers {
+public:
+    static ListNode *addTwoNumbers(ListNode *l0, ListNode *l2);
+};
+
 class TwoSum {
 public:
-    static std::vector<int> twoSum(std::vector<int> &nums, int target);
+    static vector<int> twoSum(vector<int> &nums, int target);
 };
 
 class LongestSubstringWithoutRepeatingCharacters {
@@ -41,5 +69,40 @@ public:
     static int removeElement(std::vector<int>& nums, int val);
 };
 
+class ReverseLinkedList {
+private:
+    ListNode *newHead = nullptr;
+
+    ListNode *_reverseListRecursive(ListNode *head);
+
+public:
+    ListNode *reverseListRecursive(ListNode *head);
+
+    ListNode *reverseListIterative(ListNode *head);
+};
+
+class MaximumSubarray {
+public:
+    /*
+     * 分治法
+     * */
+    static int maxSubArrayDC(vector<int> &nums);
+
+    /*
+     * 动态规划
+     * */
+    static int maxSubArrayDP(vector<int> &nums);
+
+private:
+    static int maxCrossingSubArrayDC(vector<int> &nums, int left, int mid, int right);
+
+    static int maxSubArrayDC(vector<int> &nums, int left, int right);
+};
+
+class FindRepeatDocument {
+private:
+
+    static int findRepeatDocument(vector<int> &documents);
+};
 
 #endif //LEETCODE_SOLUTION_PROBLEMS_H
