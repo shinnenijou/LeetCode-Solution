@@ -13,6 +13,5 @@ add_executable(unit_test
         test/main.cpp
         test/catch_amalgamated.cpp
         src/sort.cpp
-        src/list.cpp
         src/problems.cpp
 )
