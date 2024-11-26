@@ -3,3 +3,5 @@
 .DS_Store
 cmake-build-debug
 bin
+.vs
+out
