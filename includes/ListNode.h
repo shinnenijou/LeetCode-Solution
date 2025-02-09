@@ -5,6 +5,10 @@
 #ifndef LISTNODE_H
 #define LISTNODE_H
 
+#include <initializer_list>
+#include <stack>
+#include <vector>
+
 /**
  * Definition for singly-linked list.
  */
@@ -25,4 +29,47 @@ struct ListNode
     {
     }
 };
+
+inline ListNode* createListNode(std::initializer_list<int> list)
+{
+    std::stack<int> stack;
+    ListNode* node = nullptr;
+
+    for (int i : list)
+    {
+        stack.push(i);
+    }
+
+    while (!stack.empty())
+    {
+        node = new ListNode(stack.top(), node);
+        stack.pop();
+    }
+
+    return node;
+}
+
+inline void releaseListNode(ListNode* node)
+{
+    while (node != nullptr)
+    {
+        ListNode* next = node->next;
+        delete node;
+        node = next;
+    }
+}
+
+inline bool checkList(ListNode* node, std::initializer_list<int> list)
+{
+    auto it = list.begin();
+
+    while (it != list.end() && node != nullptr)
+    {
+        if (*it != node->val) return false;
+        ++it;
+        node = node->next;
+    }
+
+    return it == list.end() && node == nullptr;;
+}
 #endif //LISTNODE_H
