@@ -13,8 +13,7 @@ public:
     {
         vector<string> vec{};
         string s{};
-        stack<char> stack{};
-        tryPush(vec, s, stack, n);
+        parenthesis(vec, s, 0, n, n);
         return vec;
     }
 
@@ -22,61 +21,33 @@ private:
     static constexpr char left = '(';
     static constexpr char right = ')';
 
-    void tryPush(vector<string>& vec, string& s, stack<char>& stack, int remain)
+    void parenthesis(vector<string>& vec, string& s, int onStack, int remain, int n)
     {
-        if (remain == 0) return;
-
-        stack.push(left);
-        s.push_back(left);
-
-        if (stack.size() < remain)
-        {
-            tryPush(vec, s, stack, remain);
-        }
-
-        if (!stack.empty())
-        {
-            tryPop(vec, s, stack, remain);
-        }
-
-        stack.pop();
-        s.pop_back();
-    }
-
-    void tryPop(vector<string>& vec, string& s, stack<char>& stack, int remain)
-    {
-        if (remain == 0) return;
-
-        char temp = stack.top();
-        stack.pop();
-        s.push_back(right);
-
-        --remain;
-
-        if (remain == 0)
+        if (s.size() == n << 1)
         {
             vec.push_back(s);
+            return;
         }
-        else
+
+        if ( onStack < remain )
         {
-            if (stack.size() < remain)
-            {
-                tryPush(vec, s, stack, remain);
-            }
-
-            if (!stack.empty())
-            {
-                tryPop(vec, s, stack, remain);
-            }
+            s.push_back(left);
+            parenthesis(vec, s, onStack + 1, remain, n);
+            s.pop_back();
         }
 
-        stack.push(temp);
-        s.pop_back();
+        if (onStack > 0)
+        {
+            s.push_back(right);
+            parenthesis(vec, s, onStack - 1, remain - 1, n);
+            s.pop_back();
+        }
     }
 };
 
 TEST_CASE("GenerateParentheses", "[GenerateParentheses]")
 {
     REQUIRE(GenerateParentheses().generateParenthesis(3) == vector<string>{"((()))","(()())","(())()","()(())","()()()"});
+    REQUIRE(GenerateParentheses().generateParenthesis(2) == vector<string>{"(())", "()()"});
     REQUIRE(GenerateParentheses().generateParenthesis(1) == vector<string>{"()"});
 }
