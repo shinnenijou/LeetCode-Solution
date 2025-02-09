@@ -20,10 +20,12 @@ struct SwapNodeInPairs_1 {
 struct SwapNodeInPairs_2
 {
     ListNode* swapPairs(ListNode* head) {
+        if (head == nullptr) return nullptr;
+
         ListNode* node = head;
         ListNode* prev = nullptr;
 
-        head = head->next ? head->next : head;
+        head = head->next != nullptr ? head->next : head;
 
         while (node != nullptr && node->next != nullptr)
         {
