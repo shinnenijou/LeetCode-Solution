@@ -20,25 +20,19 @@ struct SwapNodeInPairs_1 {
 struct SwapNodeInPairs_2
 {
     ListNode* swapPairs(ListNode* head) {
-        if (head == nullptr) return nullptr;
+        ListNode vitualHead(0, head);
+        ListNode *prev = &vitualHead;
 
-        ListNode* node = head;
-        ListNode* prev = nullptr;
-
-        head = head->next != nullptr ? head->next : head;
-
-        while (node != nullptr && node->next != nullptr)
+        for(ListNode* node = head; node != nullptr && node->next != nullptr; node = node->next)
         {
             ListNode* next = node->next;
             node->next = next->next;
             next->next = node;
-
-            if (prev != nullptr) prev->next = next;
+            prev->next = next;
             prev = node;
-            node = node->next;
         }
 
-        return head;
+        return vitualHead.next;
     }
 };
 
