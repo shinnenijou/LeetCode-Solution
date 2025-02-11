@@ -64,15 +64,17 @@ private:
     static void epsilonTransmit(const EasyDigraph& digraph, StateContainer& states)
     {
         StateContainer queue(states);
+        vector<char> visited(digraph.graph.size(), 0);
 
         while (!queue.empty())
         {
             const int state = queue.back();
             queue.pop_back();
+            visited[state] = 1;
 
             for (int v : digraph.adj(state))
             {
-                if (find(states.begin(), states.end(), v) != states.end()) continue;
+                if (visited[v]) continue;
                 queue.push_back(v);
                 states.push_back(v);
             }
