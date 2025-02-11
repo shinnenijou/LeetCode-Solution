@@ -1,6 +1,5 @@
 #include "catch_amalgamated.hpp"
 
-#include <unordered_set>
 #include <vector>
 
 using namespace std;
@@ -16,6 +15,8 @@ class RegularExpressionMatching
         vector<vector<int>> graph{};
     };
 
+    using StateContainer = vector<int>;
+
 public:
     bool isMatch(const string& text, const string& pattern)
     {
@@ -23,17 +24,16 @@ public:
 
         const EasyDigraph graph(std::move(buildDigraph(pattern)));
 
-        vector<int> states;
-        vector<char> visited(graph.size(), 0);
+        StateContainer states;
 
         // initial state
         states.push_back(0);
-        epsilonTransmit(graph, visited, states);
+        epsilonTransmit(graph, states);
 
         for (const char ch : text)
         {
             matchTransmit(ch, pattern, states);
-            epsilonTransmit(graph, visited, states);
+            epsilonTransmit(graph, states);
         }
 
         return find(states.begin(), states.end(), pattern.size()) != states.end();
@@ -61,41 +61,32 @@ private:
         return graph;
     }
 
-    static void epsilonTransmit(const EasyDigraph& digraph, vector<char>& visited, vector<int>& states)
+    static void epsilonTransmit(const EasyDigraph& digraph, StateContainer& states)
     {
-        vector<int> temp(states);
-        fill(visited.begin(), visited.end(), 0);
+        StateContainer queue(states);
 
-        while (!temp.empty())
+        while (!queue.empty())
         {
-            const int state = temp.back();
-            temp.pop_back();
-
-            if (visited[state]) continue;
-
-            // current state
-            visited[state] = 1;
+            const int state = queue.back();
+            queue.pop_back();
 
             for (int v : digraph.adj(state))
             {
-                if (visited[v]) continue;
-                temp.push_back(v);
+                if (find(states.begin(), states.end(), v) != states.end()) continue;
+                queue.push_back(v);
                 states.push_back(v);
             }
         }
     }
 
-    static void matchTransmit(const char text, const string& pattern, vector<int>& states)
+    static void matchTransmit(const char text, const string& pattern, StateContainer& states)
     {
         using std::swap;
-        vector<int> temp;
+        StateContainer temp;
         swap(temp, states);
 
-        while (!temp.empty())
+        for (const int state: temp)
         {
-            const int state = temp.back();
-            temp.pop_back();
-
             if (state >= pattern.size()) continue;
 
             // char matched
