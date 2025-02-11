@@ -1,81 +1,105 @@
 #include "catch_amalgamated.hpp"
 
+#include <unordered_set>
 #include <vector>
 
 using namespace std;
 
 class RegularExpressionMatching
 {
-    using StateContainer = vector<int>;
+    struct EasyDigraph
+    {
+        explicit EasyDigraph(const size_t V): graph(V) {}
+        void addEdge(const int v, const int w){ graph[v].push_back(w); }
+        size_t size() const { return graph.size(); }
+        const vector<int>& adj(const int v) const {return graph[v];}
+        vector<vector<int>> graph{};
+    };
 
 public:
     bool isMatch(const string& text, const string& pattern)
     {
         if (pattern.empty()) return true;
 
-        StateContainer states;
+        const EasyDigraph graph(std::move(buildDigraph(pattern)));
+
+        vector<int> states;
+        vector<char> visited(graph.size(), 0);
 
         // initial state
         states.push_back(0);
-        epsilonTransmit(pattern, states);
+        epsilonTransmit(graph, visited, states);
 
         for (const char ch : text)
         {
             matchTransmit(ch, pattern, states);
-            epsilonTransmit(pattern, states);
+            epsilonTransmit(graph, visited, states);
         }
 
         return find(states.begin(), states.end(), pattern.size()) != states.end();
     }
 
 private:
-    static void epsilonTransmit(const string& pattern, StateContainer& states)
+    // skip validate pattern
+    static EasyDigraph buildDigraph(const string& pattern)
     {
-        using std::swap;
-        StateContainer queue;
-        swap(queue, states);
-        vector<bool> visited(pattern.size() + 1, false);
+        EasyDigraph graph(pattern.size() + 1);
 
-        while (!queue.empty())
+        for (int i = 0; i < pattern.size(); ++i)
         {
-            const int state = queue.back();
-            queue.pop_back();
+            if (pattern[i] == '*')
+            {
+                graph.addEdge(i, i - 1);
+                graph.addEdge(i, i + 1);
+            }
+            else if (i + 1 < pattern.size() && pattern[i + 1] == '*')
+            {
+                graph.addEdge(i, i + 1);
+            }
+        }
+
+        return graph;
+    }
+
+    static void epsilonTransmit(const EasyDigraph& digraph, vector<char>& visited, vector<int>& states)
+    {
+        vector<int> temp(states);
+        fill(visited.begin(), visited.end(), 0);
+
+        while (!temp.empty())
+        {
+            const int state = temp.back();
+            temp.pop_back();
 
             if (visited[state]) continue;
 
             // current state
-            states.push_back(state);
-            visited[state] = true;
+            visited[state] = 1;
 
-            if (state < pattern.size() && pattern[state] == '*')
+            for (int v : digraph.adj(state))
             {
-                if (!visited[state - 1]) queue.push_back(state - 1);
-                if (!visited[state + 1]) queue.push_back(state + 1);
-            }
-            else if (state + 1 < pattern.size() && pattern[state + 1] == '*')
-            {
-                if (!visited[state + 1]) queue.push_back(state + 1);
+                if (visited[v]) continue;
+                temp.push_back(v);
+                states.push_back(v);
             }
         }
     }
 
-    static void matchTransmit(const char text, const string& pattern, StateContainer& states)
+    static void matchTransmit(const char text, const string& pattern, vector<int>& states)
     {
         using std::swap;
-        StateContainer queue;
-        swap(queue, states);
-        vector<bool> visited(pattern.size() + 1, false);
+        vector<int> temp;
+        swap(temp, states);
 
-        // match text char
-        while (!queue.empty())
+        while (!temp.empty())
         {
-            const int state = queue.back();
-            queue.pop_back();
+            const int state = temp.back();
+            temp.pop_back();
 
-            if (visited[state]) continue;
-            visited[state] = true;
+            if (state >= pattern.size()) continue;
 
-            if (state < pattern.size() && (text == pattern[state] || pattern[state] == '.'))
+            // char matched
+            if (text == pattern[state] || pattern[state] == '.')
             {
                 states.push_back(state + 1);
             }
@@ -87,7 +111,10 @@ TEST_CASE("RegularExpressionMatching", "[RegularExpressionMatching]")
 {
     REQUIRE(RegularExpressionMatching().isMatch("aaa", "aaaa") == false);
     REQUIRE(RegularExpressionMatching().isMatch("aa", "a") == false);
+    REQUIRE(RegularExpressionMatching().isMatch("aa", "aa") == true);
     REQUIRE(RegularExpressionMatching().isMatch("aa", "a*") == true);
     REQUIRE(RegularExpressionMatching().isMatch("ab", ".*") == true);
-    REQUIRE(RegularExpressionMatching().isMatch("aaaaaaaab", "a*b") == true);
+    REQUIRE(RegularExpressionMatching().isMatch("aaab", "a*b") == true);
+    REQUIRE(RegularExpressionMatching().isMatch("aaabbbb", "a*b*") == true);
+    REQUIRE(RegularExpressionMatching().isMatch("cccaaabbbb", ".*b*") == true);
 }
