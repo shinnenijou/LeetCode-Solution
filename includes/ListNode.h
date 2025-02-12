@@ -72,4 +72,16 @@ inline bool checkList(ListNode* node, std::initializer_list<int> list)
 
     return it == list.end() && node == nullptr;;
 }
+
+inline std::vector<int> extractList(ListNode* node)
+{
+    std::vector<int> ret{};
+
+    for (const ListNode* current = node; current != nullptr; current = current->next)
+    {
+        ret.push_back(current->val);
+    }
+
+    return ret;
+}
 #endif //LISTNODE_H
