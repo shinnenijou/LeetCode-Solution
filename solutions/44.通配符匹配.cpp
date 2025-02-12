@@ -4,7 +4,7 @@
 
 using namespace std;
 
-class RegularExpressionMatching
+class WildcardMatching
 {
     struct EasyDigraph
     {
@@ -18,8 +18,9 @@ class RegularExpressionMatching
     using StateContainer = vector<int>;
 
 public:
-    bool isMatch(const string& text, const string& pattern)
+    bool isMatch(const string& text, const string& originPattern)
     {
+        const string pattern = toRegex(originPattern);
         const EasyDigraph graph(std::move(buildDigraph(pattern)));
 
         StateContainer states;
@@ -38,6 +39,23 @@ public:
     }
 
 private:
+    // convert wildcard match to a regex
+    static string toRegex(const string& pattern)
+    {
+        string result;
+
+        for (const char ch : pattern)
+        {
+            if (ch == '*')
+            {
+                result.push_back('?');
+            }
+            result.push_back(ch);
+        }
+
+        return result;
+    }
+
     // skip validate pattern
     static EasyDigraph buildDigraph(const string& pattern)
     {
@@ -90,7 +108,7 @@ private:
             if (state >= pattern.size()) continue;
 
             // char matched
-            if (text == pattern[state] || pattern[state] == '.')
+            if (text == pattern[state] || pattern[state] == '?')
             {
                 states.push_back(state + 1);
             }
@@ -98,15 +116,13 @@ private:
     }
 };
 
-TEST_CASE("RegularExpressionMatching", "[RegularExpressionMatching]")
+TEST_CASE("WildcardMatching", "[WildcardMatching]")
 {
-    REQUIRE(RegularExpressionMatching().isMatch("aaa", "aaaa") == false);
-    REQUIRE(RegularExpressionMatching().isMatch("aa", "a") == false);
-    REQUIRE(RegularExpressionMatching().isMatch("aa", "aa") == true);
-    REQUIRE(RegularExpressionMatching().isMatch("aa", "a*") == true);
-    REQUIRE(RegularExpressionMatching().isMatch("ab", ".*") == true);
-    REQUIRE(RegularExpressionMatching().isMatch("aaab", "a*b") == true);
-    REQUIRE(RegularExpressionMatching().isMatch("aaabbbb", "a*b*") == true);
-    REQUIRE(RegularExpressionMatching().isMatch("cccaaabbbb", ".*b*") == true);
-    REQUIRE(RegularExpressionMatching().isMatch("cccaaabbbb", "") == false);
+    REQUIRE(WildcardMatching().isMatch("aaa", "aaaa") == false);
+    REQUIRE(WildcardMatching().isMatch("aa", "a") == false);
+    REQUIRE(WildcardMatching().isMatch("aa", "aa") == true);
+    REQUIRE(WildcardMatching().isMatch("aa", "a?") == true);
+    REQUIRE(WildcardMatching().isMatch("ab", "a?") == true);
+    REQUIRE(WildcardMatching().isMatch("ab", "*") == true);
+    REQUIRE(WildcardMatching().isMatch("ab", "") == false);
 }
