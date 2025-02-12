@@ -9,44 +9,19 @@ public:
     void rotate(vector<vector<int>>& matrix)
     {
         const int N = matrix.size();
-        vector<int> backup{};
 
         for (int i = 0; i < N >> 1; ++i)
         {
             const int start = i;
             const int end = N - i - 1;
 
-            // backup up
-            backup.clear();
-
-            // initial row = i, col = i
-            for (int row = start, col = start; col < end; ++col)
+            for (int j = 0; j < end - start; ++j)
             {
-                backup.push_back(matrix[row][col]);
-            }
-
-            // right: initial row = i
-            for (int row = start, col = end; row < end; ++row)
-            {
-                swap(matrix[row][col], backup[row - start]);
-            }
-
-            // down
-            for (int row = end, col = end; col > start; --col)
-            {
-                swap(matrix[row][col], backup[end - col]);
-            }
-
-            // left
-            for (int row = end, col = start; row > start; --row )
-            {
-                swap(matrix[row][col], backup[end - row]);
-            }
-
-            // up
-            for (int row = start, col = start; col < end; ++col)
-            {
-                swap(matrix[row][col], backup[col - start]);
+                const int temp = matrix[start + j][end];
+                matrix[start + j][end] = matrix[start][start + j];
+                matrix[start][start + j] = matrix[end - j][start];
+                matrix[end - j][start] = matrix[end][end - j];
+                matrix[end][end - j] = temp;
             }
         }
     }
